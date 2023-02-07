@@ -1,0 +1,7 @@
+{
+  "user": "developer",
+  "password": "dev",
+  "host": "127.0.0.2",
+  "port": 5432,
+  "database": "warungpos_test"
+}

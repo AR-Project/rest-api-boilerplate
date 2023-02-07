@@ -1,0 +1,35 @@
+{
+  "name": "warung-pos",
+  "version": "0.1.0",
+  "description": "REST API for POS system",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node /dist/app.js",
+    "start:dev": "nodemon --watch \"./src/**/*.ts\" --exec \"ts-node --esm\" ./src/app.ts",
+    "build": "tsc",
+    "test": "jest --setupFiles dotenv/config -i",
+    "test:watch:change": "jest --watchAll --setupFiles dotenv/config -i",
+    "test:watch": "jest --watchAll --coverage --setupFiles dotenv/config -i"
+  },
+  "author": "AR-Project",
+  "license": "ISC",
+  "dependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.17",
+    "@types/node": "^18.11.19",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "nanoid": "^3.3.4",
+    "supertest": "^6.3.3",
+    "ts-jest-resolver": "^2.0.0",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.4.0",
+    "@types/supertest": "^2.0.12",
+    "jest": "^29.4.1",
+    "nodemon": "^2.0.20",
+    "ts-jest": "^29.0.5"
+  }
+}
