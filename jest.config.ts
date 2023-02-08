@@ -117,7 +117,7 @@ export default {
   // resetModules: false,
 
   // A path to a custom resolver
-  resolver: "ts-jest-resolver"
+  resolver: "ts-jest-resolver",
   // Automatically restore mock state and implementation before every test
   // restoreMocks: false,
 
@@ -160,9 +160,9 @@ export default {
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  // testPathIgnorePatterns: [
-  //   "\\\\node_modules\\\\"
-  // ],
+  testPathIgnorePatterns: [
+    "\\\\node_modules\\\\", "\\\\postgres\\\\", "\\\\_testsTableHelper\\\\"
+  ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
