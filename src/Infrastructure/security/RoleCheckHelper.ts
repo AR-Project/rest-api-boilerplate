@@ -9,10 +9,9 @@ export default class LevelCheckConcrete extends LevelCheck {
   }
 
   override test (secretCode: string): string {
-    if (secretCode === this._key) {
+    if (process.env.ADMIN_REGISTER === 'true' && secretCode === this._key) {
       return 'admin'
-    } else {
-      return 'base'
     }
+    return 'base'
   }
 }
