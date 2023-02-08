@@ -4,6 +4,6 @@ describe('LevelCheck interface', () => {
   it('should throw error when invoke abstract behavior', async () => {
     const levelCheck = new LevelCheck()
 
-    expect(() => { levelCheck.test('secretKey') }).toThrow('LEVEL_CHECK.METHOD_NOT_IMPLEMENTED')
+    expect(() =>  levelCheck.verifyKey('secretKey') ).toThrow('LEVEL_CHECK.METHOD_NOT_IMPLEMENTED')
   })
 })

@@ -2,14 +2,14 @@ export interface IRegisterUser {
   username: string
   password: string
   fullname: string
-  role: "base" | "admin"
+  role: string
 }
 
 export default class RegisterUser {
   username: string
   password: string
   fullname: string
-  role: "base" | "admin"
+  role: string
 
   constructor (payload: IRegisterUser) {
     this._verifyPayload(payload)

@@ -13,44 +13,58 @@ describe('Level Check Helper', () => {
   })
 
   describe('test function', () => {
-    it('should return admin when payload is match with ADMIN_KEY and ADMIN_REGISTER is true', () => {
+    it('should return true when payload is match with ADMIN_KEY and ADMIN_REGISTER is true', () => {
       // Arrange
       process.env.ADMIN_TOKEN = 'isAdmin'
       process.env.ADMIN_REGISTER = 'true'
       const levelCheckHelper = new LevelCheckHelper()
 
-      const expectedResult = 'admin'
+      const expectedResult = true
 
       // Action
-      const result = levelCheckHelper.test('isAdmin')
+      const result = levelCheckHelper.verifyKey('isAdmin')
 
       // Assert
       expect(result).toBe(expectedResult)
     })
-    it('should return base when payload is not match with ADMIN_KEY env', () => {
+    it('should return false when payload is not match with ADMIN_KEY env', () => {
       // Arrange
       process.env.ADMIN_TOKEN = 'isAdmin'
       process.env.ADMIN_REGISTER = 'true'
       const levelCheckHelper = new LevelCheckHelper()
 
-      const expectedResult = 'base'
+      const expectedResult = false
 
       // Action
-      const result = levelCheckHelper.test('notAdmin')
+      const result = levelCheckHelper.verifyKey('notAdmin')
 
       // Assert
       expect(result).toBe(expectedResult)
     })
-    it('should return base when ADMIN_REGISTRATION is false', () => {
+    it('should return false when ADMIN_REGISTRATION is false', () => {
       // Arrange
       process.env.ADMIN_TOKEN = 'isAdmin'
       process.env.ADMIN_REGISTER = 'false'
       const levelCheckHelper = new LevelCheckHelper()
 
-      const expectedResult = 'base'
+      const expectedResult = false
 
       // Action
-      const result = levelCheckHelper.test('isAdmin')
+      const result = levelCheckHelper.verifyKey('isAdmin')
+
+      // Assert
+      expect(result).toBe(expectedResult)
+    })
+    it('should return false when key is undefined', () => {
+      // Arrange
+      process.env.ADMIN_TOKEN = 'isAdmin'
+      process.env.ADMIN_REGISTER = 'false'
+      const levelCheckHelper = new LevelCheckHelper()
+
+      const expectedResult = false
+
+      // Action
+      const result = levelCheckHelper.verifyKey(null)
 
       // Assert
       expect(result).toBe(expectedResult)

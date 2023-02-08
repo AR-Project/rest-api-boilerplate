@@ -5,9 +5,8 @@ describe('NanoIdGenerator singleton infrastructure concrete', () => {
     const firstId = nanoId.generate()
     const secondId = nanoId.generate()
 
-    console.log(`${firstId} || ${secondId}`);
-    
-
-    expect(true).toBe(true)
+    expect(firstId).not.toBe(secondId)
+    expect(typeof firstId).toBe('string')
+    expect(typeof secondId).toBe('string')
   })
 })

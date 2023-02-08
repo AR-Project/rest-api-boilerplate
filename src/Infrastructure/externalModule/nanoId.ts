@@ -1,13 +1,13 @@
 import IdGeneratorHelper from "../../Applications/tools/IdGenerator.js";
 import { nanoid } from "nanoid";
 
-class NanoId extends IdGeneratorHelper {
+class NanoIdInfrastructure extends IdGeneratorHelper {
   override generate(): string {
     return nanoid()
   }
 }
 
-const singleton = new NanoId()
+const singleton = new NanoIdInfrastructure()
 
 Object.freeze(singleton)
 

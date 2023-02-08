@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable class-methods-use-this */
 export interface IRoleCheck {
-  test: (keyInterface: string) => any
+  verifyKey: (keyInterface: any) => any
 }
 
 export default class RoleCheck implements IRoleCheck {
-  test (key: string): any {
+  verifyKey (key: any): any {
     throw new Error('LEVEL_CHECK.METHOD_NOT_IMPLEMENTED')
   }
 }
