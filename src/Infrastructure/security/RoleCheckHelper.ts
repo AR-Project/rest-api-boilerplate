@@ -1,19 +1,18 @@
 import LevelCheck from '../../Applications/security/RoleCheck.js'
 
 export default class LevelCheckConcrete extends LevelCheck {
-  override verifyKey (secretCode: any): boolean {
+  override verifyKey (key: any): string {
     const ADMIN_TOKEN = process.env.ADMIN_TOKEN
-    if (secretCode == null) {
-      return false
-    }
+
+    const isAdminRegisterEnabled = process.env.ADMIN_REGISTER === 'true'
+    const isKeyMatchWithAdminToken = ADMIN_TOKEN === key
+
+    if (key == null) return 'base'
   
-    if (
-      process.env.ADMIN_REGISTER === 'true' && 
-      ADMIN_TOKEN === secretCode
-    ) {
-      return true
+    if ( isAdminRegisterEnabled && isKeyMatchWithAdminToken ) {
+      return 'admin'
     }
 
-    return false
+    return 'base'
   }
 }

@@ -13,13 +13,13 @@ describe('Level Check Helper', () => {
   })
 
   describe('test function', () => {
-    it('should return true when payload is match with ADMIN_KEY and ADMIN_REGISTER is true', () => {
+    it('should return "admin" as string when payload is match with ADMIN_KEY and ADMIN_REGISTER is true', () => {
       // Arrange
       process.env.ADMIN_TOKEN = 'isAdmin'
       process.env.ADMIN_REGISTER = 'true'
       const levelCheckHelper = new LevelCheckHelper()
 
-      const expectedResult = true
+      const expectedResult = 'admin'
 
       // Action
       const result = levelCheckHelper.verifyKey('isAdmin')
@@ -33,7 +33,7 @@ describe('Level Check Helper', () => {
       process.env.ADMIN_REGISTER = 'true'
       const levelCheckHelper = new LevelCheckHelper()
 
-      const expectedResult = false
+      const expectedResult = 'base'
 
       // Action
       const result = levelCheckHelper.verifyKey('notAdmin')
@@ -47,7 +47,7 @@ describe('Level Check Helper', () => {
       process.env.ADMIN_REGISTER = 'false'
       const levelCheckHelper = new LevelCheckHelper()
 
-      const expectedResult = false
+      const expectedResult = 'base'
 
       // Action
       const result = levelCheckHelper.verifyKey('isAdmin')
@@ -61,7 +61,7 @@ describe('Level Check Helper', () => {
       process.env.ADMIN_REGISTER = 'false'
       const levelCheckHelper = new LevelCheckHelper()
 
-      const expectedResult = false
+      const expectedResult = 'base'
 
       // Action
       const result = levelCheckHelper.verifyKey(null)

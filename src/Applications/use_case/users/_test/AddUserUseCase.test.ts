@@ -33,7 +33,7 @@ describe('AddUserUseCase', () => {
       .mockImplementation(async () => await Promise.resolve('encrypted_password'))
     mockUserRepository.addUser = jest.fn()
       .mockImplementation(async () => await Promise.resolve(expectedRegisteredUser))
-    mockRoleCheck.verifyKey = jest.fn(()=> true)
+    mockRoleCheck.verifyKey = jest.fn(()=> 'admin')
 
     /** creating use case instance */
     const getUserUseCase = new AddUserUseCase({
@@ -84,7 +84,7 @@ describe('AddUserUseCase', () => {
       .mockImplementation(async () => await Promise.resolve('encrypted_password'))
     mockUserRepository.addUser = jest.fn()
       .mockImplementation(async () => await Promise.resolve(expectedRegisteredUser))
-    mockRoleCheck.verifyKey = jest.fn(() => false)
+    mockRoleCheck.verifyKey = jest.fn(() => 'base')
       // .mockImplementation(async () => await Promise.resolve('base'))
 
     /** creating use case instance */
