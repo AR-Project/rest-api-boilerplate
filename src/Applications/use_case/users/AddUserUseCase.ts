@@ -30,7 +30,7 @@ export default class AddUserUseCase {
 
   async execute (useCasePayload: IAddUserPayload): Promise<RegisteredUser> {
     const { username, password, fullname, key } = useCasePayload
-    let role: string = this._roleCheck.verifyKey(key) ? 'admin' : 'base'
+    let role: string = this._roleCheck.verifyKey(key)
     const registerUser: RegisterUser = new RegisterUser({
       username, password, fullname, role
     })
