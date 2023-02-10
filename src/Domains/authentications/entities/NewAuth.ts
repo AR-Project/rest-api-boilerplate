@@ -1,4 +1,4 @@
-interface newAuth {
+interface INewAuth {
   accessToken: string
   refreshToken: string
 }
@@ -7,14 +7,14 @@ export default class NewAuth {
   accessToken: string
   refreshToken: string
 
-  constructor (payload: newAuth) {
+  constructor (payload: INewAuth) {
     this._verifyPayload(payload)
 
     this.accessToken = payload.accessToken
     this.refreshToken = payload.refreshToken
   }
 
-  _verifyPayload (payload: newAuth): void {
+  _verifyPayload (payload: INewAuth): void {
     const { accessToken, refreshToken } = payload
 
     if (accessToken == null || refreshToken == null) {
