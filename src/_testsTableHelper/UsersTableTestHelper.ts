@@ -6,16 +6,16 @@ export interface IUserTableRow {
   username?: string
   password?: string
   fullname?: string
-  level?: string
+  role?: string
 }
 
 const UsersTableTestHelper = {
   async addUser ({
-    id = 'user-123', username = 'dicoding', password = 'secret', fullname = 'Dicoding Indonesia', level = 'admin'
+    id = 'user-123', username = 'dicoding', password = 'secret', fullname = 'Dicoding Indonesia', role = 'admin'
   }: IUserTableRow): Promise<void> {
     const query = {
       text: 'INSERT INTO users VALUES($1, $2, $3, $4, $5)',
-      values: [id, username, password, fullname, level]
+      values: [id, username, password, fullname, role]
     }
 
     await pool.query(query)
