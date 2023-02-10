@@ -7,6 +7,7 @@ import ClientError from '../../Commons/exceptions/ClientError.js'
 import DomainErrorTranslator, { type ITranslatedError } from '../../Commons/exceptions/DomainErrorTranslator.js'
 
 import userRouter from '../../Interface/http/api/users.js'
+import authenticationRouter from '../../Interface/http/api/authentications.js'
 
 
 const server = express()
@@ -15,7 +16,7 @@ server.use(express.json())
 
 server.get('/', (req: Request, res: Response) => {
   res.json({
-    message: 'hello nodemonn from npm package'
+    message: 'hello world, from boilerplate REST API'
   })
 })
 
@@ -23,6 +24,7 @@ server.get('/health', checkHealth)
 server.get('/generate', nanoIdApi)
 
 server.use('/users', userRouter)
+server.use('/authentications', authenticationRouter)
 
 server.use((err: ErrorRequestHandler, req: Request, res: Response, next: NextFunction): void => {
   if (err instanceof Error) {
