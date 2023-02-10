@@ -7,7 +7,7 @@ describe('AuthenticationTokenManager interface', () => {
     const abstractPayload: ITokenPayload = {
       id: 'user-123',
       username: 'username',
-      level: 'base'
+      role: 'base'
     }
 
     // Action & Assert

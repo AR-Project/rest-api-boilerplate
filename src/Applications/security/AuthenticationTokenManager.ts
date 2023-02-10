@@ -4,7 +4,7 @@
 export interface ITokenPayload {
   id: string
   username: string
-  level: string
+  role: string
 }
 export default class AuthenticationTokenManager {
   async createRefreshToken (payload: ITokenPayload): Promise<string> {
