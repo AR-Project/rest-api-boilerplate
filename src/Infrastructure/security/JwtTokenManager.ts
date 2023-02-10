@@ -17,7 +17,7 @@ export default class JwtTokenManager extends AuthenticationTokenManager {
       const payload: ITokenPayload = {
         id: artifact.id,
         username: artifact.username,
-        level: artifact.level
+        role: artifact.role
       }
       return payload
 
@@ -31,7 +31,7 @@ export default class JwtTokenManager extends AuthenticationTokenManager {
     const payload: ITokenPayload = {
       id: artifact.id,
       username: artifact.username,
-      level: artifact.level
+      role: artifact.role
     }
     return payload
   }

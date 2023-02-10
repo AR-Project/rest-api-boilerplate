@@ -9,7 +9,7 @@ describe('JwtTokenManager', () => {
       const payload = {
         username: 'warungposadmin',
         id: 'user-123',
-        level: 'base'
+        role: 'base'
       }
       const jwtTokenManager = new JwtTokenManager()
       // Action
@@ -26,7 +26,7 @@ describe('JwtTokenManager', () => {
       const payload = {
         username: 'warungposadmin',
         id: 'user-123',
-        level: 'base'
+        role: 'base'
       }
       const jwtTokenManager = new JwtTokenManager()
 
@@ -44,7 +44,7 @@ describe('JwtTokenManager', () => {
       const payload = {
         username: 'warungposadmin',
         id: 'user-123',
-        level: 'base'
+        role: 'base'
       }
 
       const jwtTokenManager = new JwtTokenManager()
@@ -59,7 +59,7 @@ describe('JwtTokenManager', () => {
       const payload = {
         username: 'warungposadmin',
         id: 'user-123',
-        level: 'base'
+        role: 'base'
       }
       const jwtTokenManager = new JwtTokenManager()
       const refreshToken = await jwtTokenManager.createRefreshToken(payload)
@@ -81,7 +81,7 @@ describe('JwtTokenManager', () => {
       const payload = {
         username: 'warungposadmin',
         id: 'user-123',
-        level: 'base'
+        role: 'base'
       }
 
       const jwtTokenManager = new JwtTokenManager()

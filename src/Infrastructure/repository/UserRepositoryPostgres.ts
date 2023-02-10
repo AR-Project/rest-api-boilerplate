@@ -4,6 +4,7 @@ import UserRepository from '../../Domains/users/UserRepository.js'
 
 import RegisteredUser, { type IRegisteredUser } from '../../Domains/users/entities/RegisteredUser.js'
 import { type IRegisterUser } from '../../Domains/users/entities/RegisterUser.js'
+import UserCoreInfo, { type IUserCoreInfo } from '../../Domains/users/entities/UserCoreInfo.js'
 
 import type Pool from '../database/postgres/pool.js'
 
@@ -13,7 +14,7 @@ export interface IUserRepositoryPostgres {
   verifyAvailableUsername: (username: string) => Promise<void>
   addUser: (registerUser: IRegisterUser) => Promise<IRegisteredUser>
   getPasswordByUsername: (username: string) => Promise<string>
-  getIdByUsername: (username: string) => Promise<string>
+  getCoreInfoByUsername: (username: string) => Promise<IUserCoreInfo>
   changePassword: (id: string, newPassword: string) => Promise<void>
 }
 
@@ -70,21 +71,21 @@ export default class UserRepositoryPostgres extends UserRepository implements IU
     return result.rows[0].password
   }
 
-  override async getIdByUsername (username: string): Promise<string> {
+  override async getCoreInfoByUsername (username: string): Promise<IUserCoreInfo> {
     const query = {
-      text: 'SELECT id FROM users WHERE username = $1',
+      text: 'SELECT id, role FROM users WHERE username = $1',
       values: [username]
     }
 
     const result = await this._pool.query(query)
 
     if (result.rowCount === 0) {
-      throw new InvariantError('user tidak ditemukan')
+      throw new InvariantError('user info tidak ditemukan')
     }
 
-    const { id } = result.rows[0]
+    const { id, role } = result.rows[0]
 
-    return id
+    return new UserCoreInfo({id, role})
   }
 
   override async changePassword (id: any, newPassword: any): Promise<void> {

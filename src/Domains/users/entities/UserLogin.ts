@@ -1,4 +1,4 @@
-interface userlogin {
+export interface IUserlogin {
   username: any
   password: any
 }
@@ -6,14 +6,14 @@ interface userlogin {
 export default class UserLogin {
   username: any
   password: any
-  constructor (payload: userlogin) {
+  constructor (payload: IUserlogin) {
     this._verifyPayload(payload)
 
     this.username = payload.username
     this.password = payload.password
   }
 
-  _verifyPayload (payload: userlogin): void {
+  _verifyPayload (payload: IUserlogin): void {
     const { username, password } = payload
 
     if (username == null || password == null) {

@@ -1,9 +1,12 @@
-import UsersTableTestHelper from '../../../_testsTableHelper/UsersTableTestHelper.js'
-import InvariantError from '../../../Commons/exceptions/InvariantError.js'
-import RegisterUser, { type IRegisterUser } from '../../../Domains/users/entities/RegisterUser.js'
-import RegisteredUser from '../../../Domains/users/entities/RegisteredUser.js'
 import pool from '../../database/postgres/pool.js'
 import UserRepositoryPostgres from '../UserRepositoryPostgres.js'
+
+import UsersTableTestHelper from '../../../_testsTableHelper/UsersTableTestHelper.js'
+import InvariantError from '../../../Commons/exceptions/InvariantError.js'
+
+import RegisteredUser from '../../../Domains/users/entities/RegisteredUser.js'
+import RegisterUser, { type IRegisterUser } from '../../../Domains/users/entities/RegisterUser.js'
+import UserCoreInfo, { type IUserCoreInfo } from '../../../Domains/users/entities/UserCoreInfo.js'
 
 describe('UserRepositoryPostgres', () => {
   const fakeIdGenerator = {
@@ -105,27 +108,31 @@ describe('UserRepositoryPostgres', () => {
     })
   })
 
-  describe('getIdByUsername', () => {
+  describe('getCoreInfoByUsername', () => {
     it('should throw InvariantError when user not found', async () => {
       // Arrange
       const userRepositoryPostgres = new UserRepositoryPostgres(pool, fakeIdGenerator)
 
       // Action & Assert
-      await expect(userRepositoryPostgres.getIdByUsername('dicoding'))
+      await expect(userRepositoryPostgres.getCoreInfoByUsername('invalidUsername'))
         .rejects
         .toThrowError(InvariantError)
     })
 
     it('should return user id correctly', async () => {
       // Arrange
-      await UsersTableTestHelper.addUser({ id: 'user-321', username: 'dicoding' })
+      await UsersTableTestHelper.addUser({ id: 'user-321', username: 'dicoding', role: 'base' })
+
       const userRepositoryPostgres = new UserRepositoryPostgres(pool, fakeIdGenerator)
 
       // Action
-      const userId = await userRepositoryPostgres.getIdByUsername('dicoding')
+      const userId = await userRepositoryPostgres.getCoreInfoByUsername('dicoding')
 
       // Assert
-      expect(userId).toEqual('user-321')
+      expect(userId).toStrictEqual(new UserCoreInfo({
+        id: 'user-321',
+        role: 'base'
+      }))
     })
   })
 
