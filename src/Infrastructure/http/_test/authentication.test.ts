@@ -238,4 +238,80 @@ describe('authentication endpoint', () => {
     })
 
   })
+
+
+  describe('when DELETE /authentications', () => {
+    /**
+    * FAIL TEST SECTION
+    */
+
+    it('should return fail, 400 when contain no payload', async () => {
+      const response = await request(server)
+        .delete('/authentications')
+
+      expect(response.statusCode).toBe(400)
+      expect(response.body.status).toBeDefined()
+      expect(response.body.status).toBe('fail')
+      expect(response.body.message).toBeDefined()
+      expect(response.body.message).toBe('harus mengirimkan token refresh')
+    })
+
+    it('should response 400 if refresh token not registered in database', async () => {
+      // Arrange
+      // Action
+      const response = await request(server)
+        .delete('/authentications')
+        .send({ refreshToken: 'invalid-token'})
+        .set('Accept', 'application/json')
+
+      // Assert
+      expect(response.statusCode).toEqual(400);
+      expect(response.body.status).toEqual('fail');
+      expect(response.body.message).toEqual('refresh token tidak ditemukan di database');
+    });
+
+    
+    it('should response 400 if payload not contain refresh token', async () => {
+      // Arrange
+      // Action
+      const response = await request(server)
+        .delete('/authentications')
+        .send({})
+        .set('Accept', 'application/json')
+
+      expect(response.statusCode).toEqual(400);
+      expect(response.body.status).toEqual('fail');
+      expect(response.body.message).toEqual('harus mengirimkan token refresh');
+    });
+
+    it('should response 400 if refresh token not string', async () => {
+      // Arrange
+      // Action
+      const response = await request(server)
+        .delete('/authentications')
+        .send({refreshToken: 123})
+        .set('Accept', 'application/json')
+
+      expect(response.statusCode).toEqual(400);
+      expect(response.body.status).toEqual('fail');
+      expect(response.body.message).toEqual('refresh token harus string');
+    });
+
+
+    it('should response 200 if refresh token valid', async () => {
+      // Arrange
+      const refreshToken = 'refresh_token';
+      await AuthenticationsTableTestHelper.addToken(refreshToken);
+
+      // Action
+      const response = await request(server)
+        .delete('/authentications')
+        .send({refreshToken})
+        .set('Accept', 'application/json')
+
+      // Assert
+      expect(response.statusCode).toEqual(200);
+      expect(response.body.status).toEqual('success');
+    });
+  })
 })

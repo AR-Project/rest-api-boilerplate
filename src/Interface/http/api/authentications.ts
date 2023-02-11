@@ -4,6 +4,9 @@ import type IUserlogin from '../../../Domains/users/entities/UserLogin.js'
 import type INewAuth from '../../../Domains/authentications/entities/NewAuth.js' 
 import { type IRefreshTokenUseCasePayload } from '../../../Applications/use_case/authentications/RefreshAuthenticationUseCase.js'
 
+import LogoutUserUseCase, { type IDeleteTokenUseCasePayload } from '../../../Applications/use_case/authentications/LogoutUserUseCase.js'
+
+
 import pool from '../../../Infrastructure/database/postgres/pool.js'
 import NanoIdInfrastructure from '../../../Infrastructure/externalModule/nanoId.js'
 
@@ -64,6 +67,22 @@ router.put('/', (req: Request, res: Response, next: NextFunction) => {
       })
     })
     .catch((error: any) => next(error))
+})
+
+
+router.delete('/', (req: Request, res: Response, next: NextFunction) => {
+  const payload: IDeleteTokenUseCasePayload = req.body
+  const logoutUserUseCase = new LogoutUserUseCase({
+    authenticationRepository: authenticationRepositoryPostgres,
+  })
+
+  logoutUserUseCase.execute(payload)
+  .then(() =>{
+    res.json({
+      status: 'success',
+    })
+  })
+  .catch((error: any) => next(error))
 })
 
 export default router
