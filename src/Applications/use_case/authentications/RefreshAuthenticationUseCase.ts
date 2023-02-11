@@ -1,7 +1,7 @@
 import type AuthenticationRepository from '../../../Domains/authentications/AuthenticationRepository.js'
 import type AuthenticationTokenManager from '../../security/AuthenticationTokenManager.js'
 
-interface IRefreshTokenUseCasePayload {
+export interface IRefreshTokenUseCasePayload {
   refreshToken: string
 }
 
