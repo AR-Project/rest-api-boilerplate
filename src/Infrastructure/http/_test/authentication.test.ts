@@ -239,6 +239,7 @@ describe('authentication endpoint', () => {
 
   })
 
+
   describe('when DELETE /authentications', () => {
     /**
     * FAIL TEST SECTION
