@@ -1,10 +1,7 @@
-import express, { type Request, type Response, type NextFunction, type ErrorRequestHandler } from 'express'
+import express, { type Request, type Response} from 'express'
 
 import checkHealth from '../../Interface/http/api/checkHealth.js'
-import nanoIdApi from '../../Interface/http/api/nanoid.js'
-
-import ClientError from '../../Commons/exceptions/ClientError.js'
-import DomainErrorTranslator, { type ITranslatedError } from '../../Commons/exceptions/DomainErrorTranslator.js'
+import errorHandlerMiddleware from '../../Interface/http/error/errorHandler.js'
 
 import userRouter from '../../Interface/http/api/users.js'
 import authenticationRouter from '../../Interface/http/api/authentications.js'
@@ -12,35 +9,22 @@ import authenticationRouter from '../../Interface/http/api/authentications.js'
 
 const server = express()
 
+// Middleware
 server.use(express.json())
 
+// Sanity Check
 server.get('/', (req: Request, res: Response) => {
   res.json({
     message: 'hello world, from boilerplate REST API'
   })
 })
-
 server.get('/health', checkHealth)
-server.get('/generate', nanoIdApi)
 
+// Register Route
 server.use('/users', userRouter)
 server.use('/authentications', authenticationRouter)
 
-server.use((err: ErrorRequestHandler, req: Request, res: Response, next: NextFunction): void => {
-  if (err instanceof Error) {
-    const translatedError: ITranslatedError = DomainErrorTranslator.translate(err)
-
-    if (translatedError instanceof ClientError) {
-      res.status(translatedError.statusCode)
-      res.json({ status: 'fail', message: translatedError.message })
-    } else {
-      console.log(err.stack)
-      // res.status(500)
-      // res.json({ status: 'fail', message: 'server fail' })
-      next(err)
-    }
-  }
-})
-
+// Error Middleware
+server.use(errorHandlerMiddleware)
 
 export default server
