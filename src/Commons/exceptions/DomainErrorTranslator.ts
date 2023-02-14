@@ -43,7 +43,8 @@ DomainErrorTranslator._directories = {
   'REPLY.MISSING_CONTENT': new InvariantError('tidak bisa membuat balasan komentar baru, data tidak lengkap'),
   'REPLY.MISSING_OWNER': new InvariantError('tidak bisa membuat balasan komentar baru, data tidak lengkap'),
   'REPLY.MISSING_COMMENT_ID': new InvariantError('tidak bisa membuat balasan komentar baru, data tidak lengkap'),
-  'REPLY.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('tidak bisa membuat balasan komentar baru, data tidak sesuai')
+  'REPLY.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError('tidak bisa membuat balasan komentar baru, data tidak sesuai'),
+  'TESTING.CUSTOM_ERROR': new InvariantError('error for testing purpose')
 }
 
 export default DomainErrorTranslator
