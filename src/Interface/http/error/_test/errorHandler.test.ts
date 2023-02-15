@@ -13,7 +13,7 @@ describe("Error middleware", () => {
   beforeEach(() => {
     mockRequest = {};
     mockResponse = {
-      status: jest.fn().mockImplementation((code) => console.log(code)),
+      status: jest.fn(),
       json: jest.fn()
     };
     mockErrorRequestHandler = {};
