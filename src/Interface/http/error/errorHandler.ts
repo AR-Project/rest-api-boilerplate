@@ -7,6 +7,15 @@ export default function errorHandlerMiddleware(err: ErrorRequestHandler, req: Re
     if (err instanceof Error) {
     const translatedError: ITranslatedError = DomainErrorTranslator.translate(err)
 
+    // Error coming from expressjwt
+    if (err.name === "UnauthorizedError") {
+      const responseBody = {
+        status: 'fail',
+        message: 'unauthorized'
+      }
+      res.status(401).json(responseBody)
+    }
+
     if (translatedError instanceof ClientError) {
       res.status(translatedError.statusCode)
       res.json({ status: 'fail', message: translatedError.message })
