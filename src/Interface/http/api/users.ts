@@ -8,7 +8,7 @@ import AddUserUseCase from '../../../Applications/use_case/users/AddUserUseCase.
 import BcryptPasswordHash from '../../../Infrastructure/security/BcryptPasswordHash.js'
 import RoleCheck from '../../../Infrastructure/security/RoleCheckHelper.js'
 
-import RegisteredUser from '../../../Domains/users/entities/RegisteredUser.js'
+import { IRegisteredUser } from '../../../Domains/users/entities/RegisteredUser.js'
 
 const userRepositoryPostgres = new UserRepositoryPostgres(pool, NanoIdInfrastructure)
 const addUserUseCase = new AddUserUseCase({
@@ -22,7 +22,7 @@ const router = express.Router()
 router.post('/', (req: Request, res: Response, next: NextFunction) => {
   const payload = req.body
   addUserUseCase.execute(payload)
-    .then((addedUser: RegisteredUser) => {
+    .then((addedUser: IRegisteredUser) => {
       res.statusCode = 201
       res.json({
         status: 'succes',
