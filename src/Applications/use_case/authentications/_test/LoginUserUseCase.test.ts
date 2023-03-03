@@ -1,4 +1,7 @@
-import UserRepository from '../../../../Domains/users/UserRepository.js'
+import { mock } from 'jest-mock-extended'
+
+
+import IUserRepository from '../../../../Domains/users/UserRepository.js'
 import AuthenticationRepository from '../../../../Domains/authentications/AuthenticationRepository.js'
 import NewAuth from '../../../../Domains/authentications/entities/NewAuth.js'
 
@@ -18,22 +21,23 @@ describe('GetAuthenticationUseCase', () => {
       accessToken: 'access_token',
       refreshToken: 'refresh_token',
     });
-    const mockUserRepository = new UserRepository();
+    const mockUserRepository = mock<IUserRepository>();
     const mockAuthenticationRepository = new AuthenticationRepository();
     const mockAuthenticationTokenManager = new AuthenticationTokenManager();
     const mockPasswordHash = new PasswordHash();
 
     // Mocking
-    mockUserRepository.getPasswordByUsername = jest.fn()
-      .mockImplementation(() => Promise.resolve('encrypted_password'));
+    mockUserRepository.getPasswordByUsername
+      .mockReturnValue(Promise.resolve('encrypted_password'))
+    mockUserRepository.getCoreInfoByUsername
+      .mockReturnValue(Promise.resolve({ id: 'user-123', role: 'base' }))
+
     mockPasswordHash.comparePassword = jest.fn()
       .mockImplementation(() => Promise.resolve());
     mockAuthenticationTokenManager.createAccessToken = jest.fn()
       .mockImplementation(() => Promise.resolve(expectedAuthentication.accessToken));
     mockAuthenticationTokenManager.createRefreshToken = jest.fn()
       .mockImplementation(() => Promise.resolve(expectedAuthentication.refreshToken));
-    mockUserRepository.getCoreInfoByUsername = jest.fn()
-      .mockImplementation(() => Promise.resolve({id: 'user-123', role: 'base'}));
     mockAuthenticationRepository.addToken = jest.fn()
       .mockImplementation(() => Promise.resolve());
 
