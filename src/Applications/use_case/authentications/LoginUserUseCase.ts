@@ -3,20 +3,20 @@ import NewAuthentication from '../../../Domains/authentications/entities/NewAuth
 
 import NewAuth from '../../../Domains/authentications/entities/NewAuth.js'
 
-import type UserRepository from '../../../Domains/users/UserRepository.js'
+import IUserRepository from '../../../Domains/users/UserRepository.js'
 import type AuthenticationRepository from '../../../Domains/authentications/AuthenticationRepository.js'
 import type AuthenticationTokenManager from '../../security/AuthenticationTokenManager.js'
 import type PasswordHash from '../../security/PasswordHash.js';
 
 interface ILoginUserUseCase {
-    userRepository: UserRepository
-    authenticationRepository: AuthenticationRepository
-    authenticationTokenManager: AuthenticationTokenManager
-    passwordHash: PasswordHash
+  userRepository: IUserRepository
+  authenticationRepository: AuthenticationRepository
+  authenticationTokenManager: AuthenticationTokenManager
+  passwordHash: PasswordHash
 }
 
 export default class LoginUserUseCase {
-  _userRepository: UserRepository
+  _userRepository: IUserRepository
   _authenticationRepository: AuthenticationRepository
   _authenticationTokenManager: AuthenticationTokenManager
   _passwordHash: PasswordHash
@@ -40,7 +40,7 @@ export default class LoginUserUseCase {
 
     await this._passwordHash.comparePassword(password, encryptedPassword);
 
-    const {id, role} = await this._userRepository.getCoreInfoByUsername(username);
+    const { id, role } = await this._userRepository.getCoreInfoByUsername(username);
 
     const accessToken = await this._authenticationTokenManager
       .createAccessToken({ username, id, role });
