@@ -22,7 +22,8 @@ server.use(
     path: [
       { url: '/users', methods: ['POST'] },
       { url: '/authentications' },
-      { url: '/protected/nonsecure' }
+      { url: '/protected/nonsecure' },
+      { url: '/', methods: ['GET'] }
     ]
   })
 )

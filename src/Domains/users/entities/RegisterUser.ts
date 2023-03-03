@@ -5,13 +5,17 @@ export interface IRegisterUser {
   role: string
 }
 
-export default class RegisterUser {
+interface IRegisterUserEntities extends IRegisterUser {
+  _verifyPayload(payload: IRegisterUser): void
+
+}
+
+export default class RegisterUser implements IRegisterUserEntities {
   username: string
   password: string
   fullname: string
   role: string
-
-  constructor (payload: IRegisterUser) {
+  constructor(payload: IRegisterUser) {
     this._verifyPayload(payload)
 
     const { username, password, fullname, role }: IRegisterUser = payload
@@ -22,7 +26,7 @@ export default class RegisterUser {
     this.role = role
   }
 
-  private _verifyPayload ({ username, password, fullname, role }: IRegisterUser): void {
+  _verifyPayload({ username, password, fullname, role }: IRegisterUser): void {
     if (username == null || password == null || fullname == null) {
       throw new Error('REGISTER_USER.NOT_CONTAIN_NEEDED_PROPERTY')
     }
@@ -36,7 +40,7 @@ export default class RegisterUser {
       throw new Error('REGISTER_USER.NOT_MEET_DATA_TYPE_SPECIFICATION')
     }
 
-  
+
     if (username.length > 50) {
       throw new Error('REGISTER_USER.USERNAME_LIMIT_CHAR')
     }
