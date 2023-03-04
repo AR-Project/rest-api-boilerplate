@@ -6,22 +6,10 @@ export interface ITokenPayload {
   username: string
   role: string
 }
-export default class AuthenticationTokenManager {
-  async createRefreshToken (payload: ITokenPayload): Promise<string> {
-    throw new Error('AUTHENTICATION_TOKEN_MANAGER.METHOD_NOT_IMPLEMENTED')
-  }
 
-  async createAccessToken (payload: ITokenPayload): Promise<string> {
-    throw new Error('AUTHENTICATION_TOKEN_MANAGER.METHOD_NOT_IMPLEMENTED')
-  }
-
-  async verifyRefreshToken (token: string): Promise<ITokenPayload> {
-    throw new Error('AUTHENTICATION_TOKEN_MANAGER.METHOD_NOT_IMPLEMENTED')
-  }
-
-  async decodePayload (token: string): Promise<ITokenPayload> {
-    throw new Error('AUTHENTICATION_TOKEN_MANAGER.METHOD_NOT_IMPLEMENTED')
-  }
+export default interface IAuthenticationTokenManager {
+  createRefreshToken: (payload: ITokenPayload) => Promise<string>
+  createAccessToken: (payload: ITokenPayload) => Promise<string>
+  verifyRefreshToken: (token: string) => Promise<ITokenPayload>
+  decodePayload: (token: string) => Promise<ITokenPayload>
 }
-
-module.exports = AuthenticationTokenManager
