@@ -3,7 +3,7 @@ import { mock } from 'jest-mock-extended'
 import RegisterUser from '../../../../Domains/users/entities/RegisterUser.js'
 import RegisteredUser from '../../../../Domains/users/entities/RegisteredUser.js'
 import IUserRepository from '../../../../Domains/users/UserRepository.js'
-import PasswordHash from '../../../security/PasswordHash.js'
+import IPasswordHash from '../../../security/PasswordHash.js'
 import IRoleCheck from '../../../security/RoleCheck.js'
 import AddUserUseCase, { type IAddUserPayload } from '../AddUserUseCase.js'
 
@@ -25,14 +25,13 @@ describe('AddUserUseCase', () => {
 
     /** creating dependency of use case */
     const mockUserRepository = mock<IUserRepository>()
-    const mockPasswordHash = new PasswordHash()
+    const mockPasswordHash = mock<IPasswordHash>()
     const mockRoleCheck = mock<IRoleCheck>()
 
     /** mocking needed function */
     mockUserRepository.verifyAvailableUsername.mockReturnValue(Promise.resolve())
     mockUserRepository.addUser.mockReturnValue(Promise.resolve(expectedRegisteredUser))
-    mockPasswordHash.hash = jest.fn()
-      .mockImplementation(async () => await Promise.resolve('encrypted_password'))
+    mockPasswordHash.hash.mockReturnValue(Promise.resolve('encrypted_password'))
     mockRoleCheck.verifyKey.mockReturnValue('admin')
 
     /** creating use case instance */
@@ -74,15 +73,14 @@ describe('AddUserUseCase', () => {
 
     /** creating dependency of use case */
     const mockUserRepository = mock<IUserRepository>()
-    const mockPasswordHash = new PasswordHash()
+    const mockPasswordHash = mock<IPasswordHash>()
     const mockRoleCheck = mock<IRoleCheck>()
 
     /** mocking needed function */
     mockUserRepository.verifyAvailableUsername.mockReturnValue(Promise.resolve())
     mockUserRepository.addUser.mockReturnValue(Promise.resolve(expectedRegisteredUser))
 
-    mockPasswordHash.hash = jest.fn()
-      .mockImplementation(async () => await Promise.resolve('encrypted_password'))
+    mockPasswordHash.hash.mockReturnValue(Promise.resolve('encrypted_password'))
     mockRoleCheck.verifyKey.mockReturnValue('base')
 
     /** creating use case instance */
