@@ -4,7 +4,7 @@ import RegisterUser from '../../../../Domains/users/entities/RegisterUser.js'
 import RegisteredUser from '../../../../Domains/users/entities/RegisteredUser.js'
 import IUserRepository from '../../../../Domains/users/UserRepository.js'
 import PasswordHash from '../../../security/PasswordHash.js'
-import RoleCheck from '../../../security/RoleCheck.js'
+import IRoleCheck from '../../../security/RoleCheck.js'
 import AddUserUseCase, { type IAddUserPayload } from '../AddUserUseCase.js'
 
 describe('AddUserUseCase', () => {
@@ -26,14 +26,14 @@ describe('AddUserUseCase', () => {
     /** creating dependency of use case */
     const mockUserRepository = mock<IUserRepository>()
     const mockPasswordHash = new PasswordHash()
-    const mockRoleCheck = new RoleCheck()
+    const mockRoleCheck = mock<IRoleCheck>()
 
     /** mocking needed function */
     mockUserRepository.verifyAvailableUsername.mockReturnValue(Promise.resolve())
     mockUserRepository.addUser.mockReturnValue(Promise.resolve(expectedRegisteredUser))
     mockPasswordHash.hash = jest.fn()
       .mockImplementation(async () => await Promise.resolve('encrypted_password'))
-    mockRoleCheck.verifyKey = jest.fn(() => 'admin')
+    mockRoleCheck.verifyKey.mockReturnValue('admin')
 
     /** creating use case instance */
     const getUserUseCase = new AddUserUseCase({
@@ -75,7 +75,7 @@ describe('AddUserUseCase', () => {
     /** creating dependency of use case */
     const mockUserRepository = mock<IUserRepository>()
     const mockPasswordHash = new PasswordHash()
-    const mockRoleCheck = new RoleCheck()
+    const mockRoleCheck = mock<IRoleCheck>()
 
     /** mocking needed function */
     mockUserRepository.verifyAvailableUsername.mockReturnValue(Promise.resolve())
@@ -83,8 +83,7 @@ describe('AddUserUseCase', () => {
 
     mockPasswordHash.hash = jest.fn()
       .mockImplementation(async () => await Promise.resolve('encrypted_password'))
-    mockRoleCheck.verifyKey = jest.fn(() => 'base')
-    // .mockImplementation(async () => await Promise.resolve('base'))
+    mockRoleCheck.verifyKey.mockReturnValue('base')
 
     /** creating use case instance */
     const getUserUseCase = new AddUserUseCase({
