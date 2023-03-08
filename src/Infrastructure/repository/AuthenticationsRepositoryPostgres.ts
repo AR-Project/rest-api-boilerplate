@@ -4,11 +4,10 @@ import type pool from '../database/postgres/pool.js'
 
 
 
-export default class AuthenticationRepositoryPostgres extends AuthenticationRepository {
+export default class AuthenticationRepositoryPostgres implements AuthenticationRepository {
   _pool: typeof pool
-  
+
   constructor(postgresPool: typeof pool) {
-    super();
     this._pool = postgresPool;
   }
 
@@ -34,7 +33,7 @@ export default class AuthenticationRepositoryPostgres extends AuthenticationRepo
     }
   }
 
-  async deleteToken(token:string ): Promise<void> {
+  async deleteToken(token: string): Promise<void> {
     const query = {
       text: 'DELETE FROM authentications WHERE token = $1',
       values: [token],

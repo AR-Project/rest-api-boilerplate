@@ -38,12 +38,12 @@ describe('RefreshAuthenticationUseCase', () => {
     const useCasePayload = {
       refreshToken: 'some_refresh_token',
     };
-    const mockAuthenticationRepository = new AuthenticationRepository();
+    const mockAuthenticationRepository = mock<AuthenticationRepository>();
     const mockAuthenticationTokenManager = mock<IAuthenticationTokenManager>();
 
     // Mocking
-    mockAuthenticationRepository.checkAvailabilityToken = jest.fn()
-      .mockImplementation(() => Promise.resolve());
+    mockAuthenticationRepository.checkAvailabilityToken
+      .mockReturnValue(Promise.resolve())
     mockAuthenticationTokenManager.verifyRefreshToken
       .mockReturnValue(Promise.resolve(
         { username: 'dicoding', id: 'user-123', role: 'base' }

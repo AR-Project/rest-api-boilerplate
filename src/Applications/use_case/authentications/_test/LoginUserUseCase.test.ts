@@ -22,7 +22,7 @@ describe('GetAuthenticationUseCase', () => {
       refreshToken: 'refresh_token',
     });
     const mockUserRepository = mock<IUserRepository>();
-    const mockAuthenticationRepository = new AuthenticationRepository();
+    const mockAuthenticationRepository = mock<AuthenticationRepository>();
     const mockAuthenticationTokenManager = mock<IAuthenticationTokenManager>();
     const mockPasswordHash = mock<IPasswordHash>()
 
@@ -37,8 +37,8 @@ describe('GetAuthenticationUseCase', () => {
       .mockReturnValue(Promise.resolve('access_token'));
     mockAuthenticationTokenManager.createRefreshToken
       .mockReturnValue(Promise.resolve('refresh_token'));
-    mockAuthenticationRepository.addToken = jest.fn()
-      .mockImplementation(() => Promise.resolve());
+    mockAuthenticationRepository.addToken
+      .mockReturnValue(Promise.resolve());
 
     // create use case instance
     const loginUserUseCase = new LoginUserUseCase({
