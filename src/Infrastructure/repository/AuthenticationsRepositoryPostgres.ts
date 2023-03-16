@@ -1,14 +1,15 @@
 import InvariantError from "../../Commons/exceptions/InvariantError.js"
 import AuthenticationRepository from "../../Domains/authentications/AuthenticationRepository.js"
 import type pool from '../database/postgres/pool.js'
+import { Pool } from 'pg';
 
 
 
 export default class AuthenticationRepositoryPostgres implements AuthenticationRepository {
-  _pool: typeof pool
+  _pool: Pool
 
-  constructor(postgresPool: typeof pool) {
-    this._pool = postgresPool;
+  constructor(pool: Pool) {
+    this._pool = pool;
   }
 
   async addToken(token: string): Promise<void> {

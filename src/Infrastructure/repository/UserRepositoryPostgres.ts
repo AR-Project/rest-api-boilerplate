@@ -6,15 +6,15 @@ import RegisteredUser, { type IRegisteredUser } from '../../Domains/users/entiti
 import { type IRegisterUser } from '../../Domains/users/entities/RegisterUser.js'
 import UserCoreInfo, { type IUserCoreInfo } from '../../Domains/users/entities/UserCoreInfo.js'
 
-import type Pool from '../database/postgres/pool.js'
+import { Pool } from 'pg';
 
 import NanoIdInfrastructure from '../externalModule/nanoId.js'
 
 export default class UserRepositoryPostgres implements IUserRepository {
-  _pool: typeof Pool
+  _pool: Pool
   _idGenerator: typeof NanoIdInfrastructure
 
-  constructor(pool: typeof Pool, idGenerator: typeof NanoIdInfrastructure) {
+  constructor(pool: Pool, idGenerator: typeof NanoIdInfrastructure) {
     this._pool = pool
     this._idGenerator = idGenerator
   }
