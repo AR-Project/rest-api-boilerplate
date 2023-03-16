@@ -1,30 +1,11 @@
-/* eslint-disable no-unused-vars */
-export interface IUserRepository {
-  verifyAvailableUsername: (username: any) => Promise<any>
-  addUser: (registerUser: any) => Promise<any>
-  getPasswordByUsername: (username: any) => Promise<any>
-  getCoreInfoByUsername: (username: any) => Promise<any>
-  changePassword: (username: any, newPassword: any) => Promise<any>
-}
+import { IRegisterUser } from './entities/RegisterUser.js'
+import { IRegisteredUser } from './entities/RegisteredUser.js'
+import { IUserCoreInfo } from './entities/UserCoreInfo.js'
 
-export default class UserRepository implements IUserRepository {
-  async verifyAvailableUsername (username: any): Promise<any> {
-    throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
-  }
-
-  async addUser (registerUser: any): Promise<any> {
-    throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
-  }
-
-  async getPasswordByUsername (username: any): Promise<any> {
-    throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
-  }
-
-  async getCoreInfoByUsername (username: any): Promise<any> {
-    throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
-  }
-
-  async changePassword (id: any, newPassword: any): Promise<any> {
-    throw new Error('USER_REPOSITORY.METHOD_NOT_IMPLEMENTED')
-  }
+export default interface IUserRepository {
+  verifyAvailableUsername: (username: string) => Promise<void>
+  addUser: (registerUser: IRegisterUser) => Promise<IRegisteredUser>
+  getPasswordByUsername: (username: string) => Promise<string>
+  getCoreInfoByUsername: (username: string) => Promise<IUserCoreInfo>
+  changePassword: (id: string, newPassword: string) => Promise<void>
 }

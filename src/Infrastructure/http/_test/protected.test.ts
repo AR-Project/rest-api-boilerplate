@@ -83,9 +83,7 @@ describe('GET /protected/secure endpoint', () => {
     expect(response.body.status).toBeDefined()
     expect(response.body.message).toBeDefined()
     expect(response.body.status).toBe('success')
-    expect(response.body.message).toBe('protected route')
-    console.log(response.body.data);
-    
+    expect(response.body.message).toBe('protected route')    
   })
   it('should return 401 when being accessed with a invalid token', async () => {
     const response = await request(server)

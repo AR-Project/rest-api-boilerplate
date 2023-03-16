@@ -1,34 +1,25 @@
 import InvariantError from '../../Commons/exceptions/InvariantError.js'
 
-import UserRepository from '../../Domains/users/UserRepository.js'
+import type IUserRepository from '../../Domains/users/UserRepository.js'
 
 import RegisteredUser, { type IRegisteredUser } from '../../Domains/users/entities/RegisteredUser.js'
 import { type IRegisterUser } from '../../Domains/users/entities/RegisterUser.js'
 import UserCoreInfo, { type IUserCoreInfo } from '../../Domains/users/entities/UserCoreInfo.js'
 
-import type Pool from '../database/postgres/pool.js'
+import { Pool } from 'pg';
 
 import NanoIdInfrastructure from '../externalModule/nanoId.js'
 
-export interface IUserRepositoryPostgres {
-  verifyAvailableUsername: (username: string) => Promise<void>
-  addUser: (registerUser: IRegisterUser) => Promise<IRegisteredUser>
-  getPasswordByUsername: (username: string) => Promise<string>
-  getCoreInfoByUsername: (username: string) => Promise<IUserCoreInfo>
-  changePassword: (id: string, newPassword: string) => Promise<void>
-}
-
-export default class UserRepositoryPostgres extends UserRepository implements IUserRepositoryPostgres {
-  _pool: typeof Pool
+export default class UserRepositoryPostgres implements IUserRepository {
+  _pool: Pool
   _idGenerator: typeof NanoIdInfrastructure
 
-  constructor (pool: typeof Pool, idGenerator: typeof NanoIdInfrastructure) {
-    super()
+  constructor(pool: Pool, idGenerator: typeof NanoIdInfrastructure) {
     this._pool = pool
     this._idGenerator = idGenerator
   }
 
-  override async verifyAvailableUsername (username: string): Promise<void> {
+  async verifyAvailableUsername(username: string): Promise<void> {
     const query = {
       text: 'SELECT username FROM users WHERE username = $1',
       values: [username]
@@ -41,7 +32,7 @@ export default class UserRepositoryPostgres extends UserRepository implements IU
     }
   }
 
-  override async addUser (registerUser: IRegisterUser): Promise<IRegisteredUser> {
+  async addUser(registerUser: IRegisterUser): Promise<IRegisteredUser> {
     const { username, password, fullname, role }: IRegisterUser = registerUser
 
     const id = `user-${this._idGenerator.generate()}`
@@ -56,7 +47,7 @@ export default class UserRepositoryPostgres extends UserRepository implements IU
     return new RegisteredUser(result.rows[0])
   }
 
-  override async getPasswordByUsername (username: string): Promise<string> {
+  async getPasswordByUsername(username: string): Promise<string> {
     const query = {
       text: 'SELECT password FROM users WHERE username = $1',
       values: [username]
@@ -71,7 +62,7 @@ export default class UserRepositoryPostgres extends UserRepository implements IU
     return result.rows[0].password
   }
 
-  override async getCoreInfoByUsername (username: string): Promise<IUserCoreInfo> {
+  async getCoreInfoByUsername(username: string): Promise<IUserCoreInfo> {
     const query = {
       text: 'SELECT id, role FROM users WHERE username = $1',
       values: [username]
@@ -85,10 +76,10 @@ export default class UserRepositoryPostgres extends UserRepository implements IU
 
     const { id, role } = result.rows[0]
 
-    return new UserCoreInfo({id, role})
+    return new UserCoreInfo({ id, role })
   }
 
-  override async changePassword (id: any, newPassword: any): Promise<void> {
+  async changePassword(id: any, newPassword: any): Promise<void> {
     const query = {
       text: 'UPDATE users SET password = $1 WHERE id = $2',
       values: [newPassword, id]

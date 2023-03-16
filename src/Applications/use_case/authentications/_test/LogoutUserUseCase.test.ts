@@ -1,3 +1,4 @@
+import { mock } from 'jest-mock-extended'
 import AuthenticationRepository from '../../../../Domains/authentications/AuthenticationRepository.js'
 import LogoutUserUseCase from '../LogoutUserUseCase.js'
 
@@ -35,11 +36,11 @@ describe('LogoutUserUseCase', () => {
     const useCasePayload = {
       refreshToken: 'refreshToken',
     };
-    const mockAuthenticationRepository = new AuthenticationRepository();
-    mockAuthenticationRepository.checkAvailabilityToken = jest.fn()
-      .mockImplementation(() => Promise.resolve());
-    mockAuthenticationRepository.deleteToken = jest.fn()
-      .mockImplementation(() => Promise.resolve());
+    const mockAuthenticationRepository = mock<AuthenticationRepository>();
+    mockAuthenticationRepository.checkAvailabilityToken
+      .mockReturnValue(Promise.resolve());
+    mockAuthenticationRepository.deleteToken
+      .mockReturnValue(Promise.resolve());
 
     const logoutUserUseCase = new LogoutUserUseCase({
       authenticationRepository: mockAuthenticationRepository,

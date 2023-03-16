@@ -1,5 +1,7 @@
+import { mock } from 'jest-mock-extended'
+
 import AuthenticationRepository from '../../../../Domains/authentications/AuthenticationRepository.js'
-import AuthenticationTokenManager from '../../../security/AuthenticationTokenManager.js'
+import IAuthenticationTokenManager from '../../../security/AuthenticationTokenManager.js'
 import RefreshAuthenticationUseCase from '../RefreshAuthenticationUseCase'
 
 describe('RefreshAuthenticationUseCase', () => {
@@ -21,8 +23,7 @@ describe('RefreshAuthenticationUseCase', () => {
     const useCasePayload = {
       refreshToken: 1,
     };
-        // @ts-expect-error expect error wrong payload
-
+    // @ts-expect-error expect error wrong payload
     const refreshAuthenticationUseCase = new RefreshAuthenticationUseCase({});
 
     // Action & Assert
@@ -37,17 +38,23 @@ describe('RefreshAuthenticationUseCase', () => {
     const useCasePayload = {
       refreshToken: 'some_refresh_token',
     };
-    const mockAuthenticationRepository = new AuthenticationRepository();
-    const mockAuthenticationTokenManager = new AuthenticationTokenManager();
+    const mockAuthenticationRepository = mock<AuthenticationRepository>();
+    const mockAuthenticationTokenManager = mock<IAuthenticationTokenManager>();
+
     // Mocking
-    mockAuthenticationRepository.checkAvailabilityToken = jest.fn()
-      .mockImplementation(() => Promise.resolve());
-    mockAuthenticationTokenManager.verifyRefreshToken = jest.fn()
-      .mockImplementation(() => Promise.resolve());
-    mockAuthenticationTokenManager.decodePayload = jest.fn()
-      .mockImplementation(() => Promise.resolve({ username: 'dicoding', id: 'user-123', role: 'base' }));
-    mockAuthenticationTokenManager.createAccessToken = jest.fn()
-      .mockImplementation(() => Promise.resolve('some_new_access_token'));
+    mockAuthenticationRepository.checkAvailabilityToken
+      .mockReturnValue(Promise.resolve())
+    mockAuthenticationTokenManager.verifyRefreshToken
+      .mockReturnValue(Promise.resolve(
+        { username: 'dicoding', id: 'user-123', role: 'base' }
+      ))
+    mockAuthenticationTokenManager.decodePayload
+      .mockReturnValue(Promise.resolve(
+        { username: 'dicoding', id: 'user-123', role: 'base' }
+      ))
+    mockAuthenticationTokenManager.createAccessToken
+      .mockReturnValue(Promise.resolve('some_new_access_token'));
+
     // Create the use case instace
     const refreshAuthenticationUseCase = new RefreshAuthenticationUseCase({
       authenticationRepository: mockAuthenticationRepository,
