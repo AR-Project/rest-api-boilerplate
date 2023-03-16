@@ -1,8 +1,8 @@
 import IdGeneratorHelper from "../../Applications/tools/IdGenerator.js";
 import { nanoid } from "nanoid";
 
-class NanoIdInfrastructure extends IdGeneratorHelper {
-  override generate(): string {
+class NanoIdInfrastructure implements IdGeneratorHelper {
+  generate(): string {
     return nanoid()
   }
 }
