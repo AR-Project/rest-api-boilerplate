@@ -12,7 +12,9 @@
     "test:watch:change": "jest --watch --setupFiles dotenv/config -i",
     "test:watch": "jest --watchAll --coverage --setupFiles dotenv/config -i",
     "migrate": "node-pg-migrate",
-    "migrate:test": "node-pg-migrate -f config/database/test.json"
+    "migrate:test": "node-pg-migrate -f config/database/test.json",
+    "v2migrate": "db-migrate --config config/database.json -e prod",
+    "v2migrate:test": "db-migrate --config config/database.json -e test"
   },
   "author": "AR-Project",
   "license": "ISC",
@@ -24,6 +26,7 @@
     "@types/node": "^18.11.19",
     "@types/pg": "^8.6.6",
     "bcrypt": "^5.1.0",
+    "db-migrate": "^0.11.13",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-jwt": "^8.4.1",

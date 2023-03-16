@@ -1,0 +1,38 @@
+{
+  "test": {
+    "driver": "pg",
+    "user": {
+      "ENV": "PGUSER_TEST"
+    },
+    "password": {
+      "ENV": "PGPASSWORD_TEST"
+    },
+    "host": {
+      "ENV": "PGHOST_TEST"
+    },
+    "port": {
+      "ENV": "PGPORT_TEST"
+    },
+    "database": {
+      "ENV": "PGDATABASE_TEST"
+    }
+  },
+  "prod": {
+    "driver": "pg",
+    "user": {
+      "ENV": "PGUSER"
+    },
+    "password": {
+      "ENV": "PGPASSWORD"
+    },
+    "host": {
+      "ENV": "PGHOST"
+    },
+    "port": {
+      "ENV": "PGPORT"
+    },
+    "database": {
+      "ENV": "PGDATABASE"
+    }
+  }
+}
