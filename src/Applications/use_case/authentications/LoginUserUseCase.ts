@@ -1,3 +1,4 @@
+import { injectable, inject } from 'tsyringe'
 import UserLogin, { type IUserlogin } from '../../../Domains/users/entities/UserLogin.js'
 import NewAuthentication from '../../../Domains/authentications/entities/NewAuth.js'
 
@@ -8,25 +9,23 @@ import type AuthenticationRepository from '../../../Domains/authentications/Auth
 import type AuthenticationTokenManager from '../../security/AuthenticationTokenManager.js'
 import type PasswordHash from '../../security/PasswordHash.js';
 
-interface ILoginUserUseCase {
-  userRepository: IUserRepository
-  authenticationRepository: AuthenticationRepository
-  authenticationTokenManager: AuthenticationTokenManager
-  passwordHash: PasswordHash
-}
-
+@injectable()
 export default class LoginUserUseCase {
   _userRepository: IUserRepository
   _authenticationRepository: AuthenticationRepository
   _authenticationTokenManager: AuthenticationTokenManager
   _passwordHash: PasswordHash
 
-  constructor({
-    userRepository,
-    authenticationRepository,
-    authenticationTokenManager,
-    passwordHash,
-  }: ILoginUserUseCase) {
+  constructor(
+    @inject('IUserRepository')
+    userRepository: IUserRepository,
+    @inject('AuthenticationRepository')
+    authenticationRepository: AuthenticationRepository,
+    @inject('AuthenticationTokenManager')
+    authenticationTokenManager: AuthenticationTokenManager,
+    @inject('PasswordHash')
+    passwordHash: PasswordHash,
+  ) {
     this._userRepository = userRepository;
     this._authenticationRepository = authenticationRepository;
     this._authenticationTokenManager = authenticationTokenManager;

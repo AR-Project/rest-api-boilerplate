@@ -41,12 +41,12 @@ describe('GetAuthenticationUseCase', () => {
       .mockReturnValue(Promise.resolve());
 
     // create use case instance
-    const loginUserUseCase = new LoginUserUseCase({
-      userRepository: mockUserRepository,
-      authenticationRepository: mockAuthenticationRepository,
-      authenticationTokenManager: mockAuthenticationTokenManager,
-      passwordHash: mockPasswordHash,
-    });
+    const loginUserUseCase = new LoginUserUseCase(
+      mockUserRepository,
+      mockAuthenticationRepository,
+      mockAuthenticationTokenManager,
+      mockPasswordHash,
+    );
 
     // Action
     const actualAuthentication = await loginUserUseCase.execute(useCasePayload);
