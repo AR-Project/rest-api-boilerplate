@@ -7,14 +7,14 @@ import NewAuth from '../../../Domains/authentications/entities/NewAuth.js'
 import IUserRepository from '../../../Domains/users/UserRepository.js'
 import type AuthenticationRepository from '../../../Domains/authentications/AuthenticationRepository.js'
 import type IAuthenticationTokenManager from '../../security/AuthenticationTokenManager.js'
-import type PasswordHash from '../../security/PasswordHash.js';
+import type IPasswordHash from '../../security/PasswordHash.js';
 
 @injectable()
 export default class LoginUserUseCase {
   _userRepository: IUserRepository
   _authenticationRepository: AuthenticationRepository
   _authenticationTokenManager: IAuthenticationTokenManager
-  _passwordHash: PasswordHash
+  _passwordHash: IPasswordHash
 
   constructor(
     @inject('IUserRepository')
@@ -23,8 +23,8 @@ export default class LoginUserUseCase {
     authenticationRepository: AuthenticationRepository,
     @inject('IAuthenticationTokenManager')
     authenticationTokenManager: IAuthenticationTokenManager,
-    @inject('PasswordHash')
-    passwordHash: PasswordHash,
+    @inject('IPasswordHash')
+    passwordHash: IPasswordHash,
   ) {
     this._userRepository = userRepository;
     this._authenticationRepository = authenticationRepository;

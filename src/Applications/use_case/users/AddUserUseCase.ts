@@ -2,7 +2,7 @@ import { injectable, inject } from 'tsyringe'
 import RegisterUser from '../../../Domains/users/entities/RegisterUser.js'
 import RegisteredUser, { type IRegisteredUser } from '../../../Domains/users/entities/RegisteredUser.js'
 import type IUserRepository from '../../../Domains/users/UserRepository.js'
-import type PasswordHash from '../../security/PasswordHash.js'
+import type IPasswordHash from '../../security/PasswordHash.js'
 import type IRoleCheck from '../../security/RoleCheck.js'
 
 export interface IAddUserPayload {
@@ -15,12 +15,12 @@ export interface IAddUserPayload {
 @injectable()
 export default class AddUserUseCase {
   _userRepository: IUserRepository
-  _passwordHash: PasswordHash
+  _passwordHash: IPasswordHash
   _roleCheck: IRoleCheck
 
   constructor(
     @inject('IUserRepository') userRepository: IUserRepository,
-    @inject('PasswordHash') passwordHash: PasswordHash,
+    @inject('IPasswordHash') passwordHash: IPasswordHash,
     @inject('IRoleCheck') roleCheck: IRoleCheck
   ) {
     this._userRepository = userRepository
