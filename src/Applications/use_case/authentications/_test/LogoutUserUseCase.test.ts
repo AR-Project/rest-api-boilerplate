@@ -42,9 +42,9 @@ describe('LogoutUserUseCase', () => {
     mockAuthenticationRepository.deleteToken
       .mockReturnValue(Promise.resolve());
 
-    const logoutUserUseCase = new LogoutUserUseCase({
-      authenticationRepository: mockAuthenticationRepository,
-    });
+    const logoutUserUseCase = new LogoutUserUseCase(
+      mockAuthenticationRepository,
+    );
 
     // Act
     await logoutUserUseCase.execute(useCasePayload);

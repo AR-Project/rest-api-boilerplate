@@ -1,25 +1,14 @@
-import { container } from 'tsyringe'
+import container from '../../../Infrastructure/container.js'
 import express, { type Request, type Response, type NextFunction } from 'express'
 
 import type IUserlogin from '../../../Domains/users/entities/UserLogin.js'
 import type INewAuth from '../../../Domains/authentications/entities/NewAuth.js'
-import { type IRefreshTokenUseCasePayload } from '../../../Applications/use_case/authentications/RefreshAuthenticationUseCase.js'
 
 import LogoutUserUseCase, { type IDeleteTokenUseCasePayload } from '../../../Applications/use_case/authentications/LogoutUserUseCase.js'
-
-import pool from '../../../Infrastructure/database/postgres/pool.js'
-
-import AuthenticationRepositoryPostgres from '../../../Infrastructure/repository/AuthenticationsRepositoryPostgres.js'
-
-import JwtTokenManager from '../../../Infrastructure/security/JwtTokenManager.js'
-
 import LoginUserUseCase from '../../../Applications/use_case/authentications/LoginUserUseCase.js'
-import RefreshAuthenticationUseCase from '../../../Applications/use_case/authentications/RefreshAuthenticationUseCase.js'
+import RefreshAuthenticationUseCase, { type IRefreshTokenUseCasePayload } from '../../../Applications/use_case/authentications/RefreshAuthenticationUseCase.js'
 
-// Start of construct object 
-const authenticationRepositoryPostgres = new AuthenticationRepositoryPostgres(pool)
 
-// Start of define router
 const router = express.Router()
 
 router.post('/', (req: Request, res: Response, next: NextFunction) => {
@@ -40,10 +29,8 @@ router.post('/', (req: Request, res: Response, next: NextFunction) => {
 
 router.put('/', (req: Request, res: Response, next: NextFunction) => {
   const payload: IRefreshTokenUseCasePayload = req.body
-  const refreshAuthenticationUseCase = new RefreshAuthenticationUseCase({
-    authenticationRepository: authenticationRepositoryPostgres,
-    authenticationTokenManager: new JwtTokenManager()
-  })
+  const refreshAuthenticationUseCase = container
+    .resolve(RefreshAuthenticationUseCase)
 
   refreshAuthenticationUseCase.execute(payload)
     .then((token: string) => {
@@ -60,9 +47,7 @@ router.put('/', (req: Request, res: Response, next: NextFunction) => {
 
 router.delete('/', (req: Request, res: Response, next: NextFunction) => {
   const payload: IDeleteTokenUseCasePayload = req.body
-  const logoutUserUseCase = new LogoutUserUseCase({
-    authenticationRepository: authenticationRepositoryPostgres,
-  })
+  const logoutUserUseCase = container.resolve(LogoutUserUseCase)
 
   logoutUserUseCase.execute(payload)
     .then(() => {

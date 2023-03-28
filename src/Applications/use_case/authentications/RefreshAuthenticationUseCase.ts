@@ -1,28 +1,26 @@
-import type AuthenticationRepository from '../../../Domains/authentications/AuthenticationRepository.js'
-import type AuthenticationTokenManager from '../../security/AuthenticationTokenManager.js'
+import { injectable, inject } from 'tsyringe'
+import type IAuthenticationRepository from '../../../Domains/authentications/AuthenticationRepository.js'
+import type IAuthenticationTokenManager from '../../security/AuthenticationTokenManager.js'
 
 export interface IRefreshTokenUseCasePayload {
   refreshToken: string
 }
 
-interface IRefreshTokenUseCase {
-  authenticationRepository: AuthenticationRepository
-  authenticationTokenManager: AuthenticationTokenManager
-}
-
-
+@injectable()
 export default class RefreshAuthenticationUseCase {
-  _authenticationRepository: AuthenticationRepository
-  _authenticationTokenManager: AuthenticationTokenManager
-  constructor({
-    authenticationRepository,
-    authenticationTokenManager,
-  }: IRefreshTokenUseCase) {
+  _authenticationRepository: IAuthenticationRepository
+  _authenticationTokenManager: IAuthenticationTokenManager
+  constructor(
+    @inject('IAuthenticationRepository')
+    authenticationRepository: IAuthenticationRepository,
+    @inject('IAuthenticationTokenManager')
+    authenticationTokenManager: IAuthenticationTokenManager,
+  ) {
     this._authenticationRepository = authenticationRepository;
     this._authenticationTokenManager = authenticationTokenManager;
   }
 
-  async execute(useCasePayload:IRefreshTokenUseCasePayload):Promise<string> {
+  async execute(useCasePayload: IRefreshTokenUseCasePayload): Promise<string> {
     this._verifyPayload(useCasePayload);
     const { refreshToken } = useCasePayload;
 
