@@ -35,11 +35,11 @@ describe('AddUserUseCase', () => {
     mockRoleCheck.verifyKey.mockReturnValue('admin')
 
     /** creating use case instance */
-    const getUserUseCase = new AddUserUseCase({
-      userRepository: mockUserRepository,
-      passwordHash: mockPasswordHash,
-      roleCheck: mockRoleCheck
-    })
+    const getUserUseCase = new AddUserUseCase(
+      mockUserRepository,
+      mockPasswordHash,
+      mockRoleCheck
+    )
 
     // Action
     const registeredUser = await getUserUseCase.execute(useCasePayload)
@@ -84,11 +84,11 @@ describe('AddUserUseCase', () => {
     mockRoleCheck.verifyKey.mockReturnValue('base')
 
     /** creating use case instance */
-    const getUserUseCase = new AddUserUseCase({
-      userRepository: mockUserRepository,
-      passwordHash: mockPasswordHash,
-      roleCheck: mockRoleCheck
-    })
+    const getUserUseCase = new AddUserUseCase(
+      mockUserRepository,
+      mockPasswordHash,
+      mockRoleCheck
+    )
 
     // Action
     const registeredUser = await getUserUseCase.execute(useCasePayload)
