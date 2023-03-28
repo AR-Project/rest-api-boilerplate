@@ -1,3 +1,4 @@
+import { injectable, inject } from 'tsyringe'
 import InvariantError from '../../Commons/exceptions/InvariantError.js'
 
 import type IUserRepository from '../../Domains/users/UserRepository.js'
@@ -8,13 +9,15 @@ import UserCoreInfo, { type IUserCoreInfo } from '../../Domains/users/entities/U
 
 import { Pool } from 'pg';
 
+import IIdGenerator from '../../Applications/tools/IdGenerator.js'
 import NanoIdInfrastructure from '../externalModule/nanoId.js'
 
+@injectable()
 export default class UserRepositoryPostgres implements IUserRepository {
   _pool: Pool
-  _idGenerator: typeof NanoIdInfrastructure
+  _idGenerator: IIdGenerator
 
-  constructor(pool: Pool, idGenerator: typeof NanoIdInfrastructure) {
+  constructor(pool: Pool, @inject("IIdGenerator") idGenerator: IIdGenerator) {
     this._pool = pool
     this._idGenerator = idGenerator
   }

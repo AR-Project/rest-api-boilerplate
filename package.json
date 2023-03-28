@@ -30,9 +30,11 @@
     "jsonwebtoken": "^9.0.0",
     "nanoid": "^3.3.4",
     "pg": "^8.9.0",
+    "reflect-metadata": "^0.1.13",
     "supertest": "^6.3.3",
     "ts-jest-resolver": "^2.0.0",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "tsyringe": "^4.7.0"
   },
   "devDependencies": {
     "@types/jest": "^29.4.0",

@@ -1,4 +1,5 @@
-import express, {Express, Request, Response} from 'express'
+import 'reflect-metadata'
+import express, { Express, Request, Response } from 'express'
 import server from './Infrastructure/http/createServer.js'
 import * as dotenv from 'dotenv'
 dotenv.config()
