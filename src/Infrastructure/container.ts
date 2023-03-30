@@ -1,6 +1,6 @@
 import { container } from "tsyringe";
 
-import { Pool } from "pg";
+import { type Pool } from "pg";
 import pool from "./database/postgres/pool.js";
 
 // Application Layer
@@ -24,7 +24,7 @@ import UserRepositoryPostgres from "./repository/UserRepositoryPostgres.js";
 import AuthenticationRepositoryPostgres from "./repository/AuthenticationsRepositoryPostgres.js";
 
 
-container.register<Pool>(Pool, { useValue: pool })
+container.register<Pool>("Pool", { useValue: pool })
 container.register<IIdGenerator>("IIdGenerator", { useValue: nanoId })
 container.register<IPasswordHash>('IPasswordHash', { useClass: BcryptPasswordHash })
 container.register<IRoleCheck>('IRoleCheck', { useClass: RoleCheckHelper })
@@ -47,7 +47,6 @@ container.register<IAuthenticationRepository>(
     useClass: AuthenticationRepositoryPostgres
   }
 )
-container.register
 export default container
 
 

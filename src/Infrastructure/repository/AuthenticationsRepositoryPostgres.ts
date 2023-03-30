@@ -1,15 +1,14 @@
 import { injectable, inject } from 'tsyringe'
 import InvariantError from "../../Commons/exceptions/InvariantError.js"
 import IAuthenticationRepository from "../../Domains/authentications/AuthenticationRepository.js"
-import type pool from '../database/postgres/pool.js'
-import { Pool } from 'pg';
+import { type Pool } from 'pg';
 
 
 @injectable()
 export default class AuthenticationRepositoryPostgres implements IAuthenticationRepository {
   _pool: Pool
 
-  constructor(pool: Pool) {
+  constructor(@inject("Pool") pool: Pool) {
     this._pool = pool;
   }
 

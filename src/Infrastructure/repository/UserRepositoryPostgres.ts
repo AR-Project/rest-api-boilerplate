@@ -7,17 +7,19 @@ import RegisteredUser, { type IRegisteredUser } from '../../Domains/users/entiti
 import { type IRegisterUser } from '../../Domains/users/entities/RegisterUser.js'
 import UserCoreInfo, { type IUserCoreInfo } from '../../Domains/users/entities/UserCoreInfo.js'
 
-import { Pool } from 'pg';
+import { type Pool } from 'pg';
 
 import IIdGenerator from '../../Applications/tools/IdGenerator.js'
-import NanoIdInfrastructure from '../externalModule/nanoId.js'
 
 @injectable()
 export default class UserRepositoryPostgres implements IUserRepository {
   _pool: Pool
   _idGenerator: IIdGenerator
 
-  constructor(pool: Pool, @inject("IIdGenerator") idGenerator: IIdGenerator) {
+  constructor(
+    @inject("Pool") pool: Pool,
+    @inject("IIdGenerator") idGenerator: IIdGenerator
+  ) {
     this._pool = pool
     this._idGenerator = idGenerator
   }
