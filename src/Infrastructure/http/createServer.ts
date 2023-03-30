@@ -1,7 +1,11 @@
+import "reflect-metadata"
+import * as dotenv from 'dotenv'
+dotenv.config()
 import express, { type Request, type Response } from 'express'
 import { expressjwt, Request as JWTRequest } from "express-jwt";
 
 // Middleware
+import registerMiddleware from './middlewares.js'
 import errorHandlerMiddleware from '../../Interface/http/error/errorHandler.js'
 
 // Router
@@ -11,22 +15,7 @@ import protectedRouter from '../../Interface/http/api/protected.js'
 
 
 const server = express()
-
-// Middleware
-server.use(express.json())
-server.use(
-  expressjwt({
-    secret: process.env.ACCESS_TOKEN_KEY as string,
-    algorithms: ["HS256"]
-  }).unless({
-    path: [
-      { url: '/users', methods: ['POST'] },
-      { url: '/authentications' },
-      { url: '/protected/nonsecure' },
-      { url: '/', methods: ['GET'] }
-    ]
-  })
-)
+registerMiddleware(server)
 
 // Sanity Check
 server.get('/', (req: Request, res: Response) => {
