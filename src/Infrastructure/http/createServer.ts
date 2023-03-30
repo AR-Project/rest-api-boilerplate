@@ -2,14 +2,14 @@ import "reflect-metadata"
 import * as dotenv from 'dotenv'
 dotenv.config()
 import express, { type Request, type Response } from 'express'
-import { expressjwt, Request as JWTRequest } from "express-jwt";
+import container from '../container.js'
 
 // Middleware
 import registerMiddleware from './middlewares.js'
 import errorHandlerMiddleware from '../../Interface/http/error/errorHandler.js'
 
 // Router
-import userRouter from '../../Interface/http/api/users.js'
+import registerUsersRoute from '../../Interface/http/api/users.js'
 import authenticationRouter from '../../Interface/http/api/authentications.js'
 import protectedRouter from '../../Interface/http/api/protected.js'
 
@@ -25,7 +25,7 @@ server.get('/', (req: Request, res: Response) => {
 })
 
 // Register Route
-server.use('/users', userRouter)
+server.use('/users', registerUsersRoute(container))
 server.use('/authentications', authenticationRouter)
 server.use('/protected', protectedRouter)
 
