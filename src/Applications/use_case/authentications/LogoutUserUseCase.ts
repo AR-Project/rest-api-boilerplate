@@ -33,5 +33,3 @@ export default class LogoutUserUseCase {
     }
   }
 }
-
-module.exports = LogoutUserUseCase;
