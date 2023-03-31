@@ -1,7 +1,6 @@
 import server from '../createServer'
 import request from 'supertest'
 import container from '../../container.js'
-
 import pool from '../../database/postgres/pool.js'
 
 import UserTableTestHelper from '../../../_testsTableHelper/UsersTableTestHelper.js'
@@ -19,6 +18,7 @@ describe('authentication endpoint', () => {
     await UserTableTestHelper.cleanTable();
     await AuthenticationsTableTestHelper.cleanTable();
   });
+
   describe('when POST /authentications', () => {
     /**
      * FAIL TEST SECTION
@@ -239,7 +239,6 @@ describe('authentication endpoint', () => {
     })
 
   })
-
 
   describe('when DELETE /authentications', () => {
     /**

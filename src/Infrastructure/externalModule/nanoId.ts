@@ -11,4 +11,4 @@ const singleton = new NanoIdInfrastructure()
 
 Object.freeze(singleton)
 
-export default singleton;
+export default singleton

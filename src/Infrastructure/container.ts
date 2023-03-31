@@ -1,5 +1,6 @@
 import { container } from "tsyringe";
 
+// Postgress Pool
 import { type Pool } from "pg";
 import pool from "./database/postgres/pool.js";
 
@@ -23,7 +24,6 @@ import IAuthenticationRepository from '../Domains/authentications/Authentication
 import UserRepositoryPostgres from "./repository/UserRepositoryPostgres.js";
 import AuthenticationRepositoryPostgres from "./repository/AuthenticationsRepositoryPostgres.js";
 
-
 container.register<Pool>("Pool", { useValue: pool })
 container.register<IIdGenerator>("IIdGenerator", { useValue: nanoId })
 container.register<IPasswordHash>('IPasswordHash', { useClass: BcryptPasswordHash })
@@ -34,7 +34,6 @@ container.register<IAuthenticationTokenManager>(
     useClass: JwtTokenManager
   }
 )
-
 container.register<IUserRepository>(
   'IUserRepository',
   {
@@ -47,6 +46,5 @@ container.register<IAuthenticationRepository>(
     useClass: AuthenticationRepositoryPostgres
   }
 )
+
 export default container
-
-

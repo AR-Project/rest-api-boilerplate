@@ -13,7 +13,7 @@ describe('UserCoreInfo entities', () => {
   it('should throw error when Payload data type is not string', () => {
     // Arrange
     const payload = {
-      id: { 0: 'user-123'},
+      id: { 0: 'user-123' },
       role: ['base']
     }
 

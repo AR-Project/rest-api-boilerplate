@@ -1,6 +1,5 @@
 import { mock } from 'jest-mock-extended'
 
-
 import IUserRepository from '../../../../Domains/users/UserRepository.js'
 import AuthenticationRepository from '../../../../Domains/authentications/AuthenticationRepository.js'
 import NewAuth from '../../../../Domains/authentications/entities/NewAuth.js'

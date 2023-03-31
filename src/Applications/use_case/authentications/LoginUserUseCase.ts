@@ -1,11 +1,11 @@
 import { injectable, inject } from 'tsyringe'
-import UserLogin, { type IUserlogin } from '../../../Domains/users/entities/UserLogin.js'
 import NewAuthentication from '../../../Domains/authentications/entities/NewAuth.js'
-
 import NewAuth from '../../../Domains/authentications/entities/NewAuth.js'
-
-import IUserRepository from '../../../Domains/users/UserRepository.js'
 import type AuthenticationRepository from '../../../Domains/authentications/AuthenticationRepository.js'
+
+import UserLogin, { type IUserlogin } from '../../../Domains/users/entities/UserLogin.js'
+import IUserRepository from '../../../Domains/users/UserRepository.js'
+
 import type IAuthenticationTokenManager from '../../security/AuthenticationTokenManager.js'
 import type IPasswordHash from '../../security/PasswordHash.js';
 

@@ -1,15 +1,13 @@
 import { injectable, inject } from 'tsyringe'
 import InvariantError from '../../Commons/exceptions/InvariantError.js'
 
-import type IUserRepository from '../../Domains/users/UserRepository.js'
-
-import RegisteredUser, { type IRegisteredUser } from '../../Domains/users/entities/RegisteredUser.js'
-import { type IRegisterUser } from '../../Domains/users/entities/RegisterUser.js'
-import UserCoreInfo, { type IUserCoreInfo } from '../../Domains/users/entities/UserCoreInfo.js'
-
 import { type Pool } from 'pg';
+import type IIdGenerator from '../../Applications/tools/IdGenerator.js'
 
-import IIdGenerator from '../../Applications/tools/IdGenerator.js'
+import type IUserRepository from '../../Domains/users/UserRepository.js'
+import RegisteredUser, { type IRegisteredUser } from '../../Domains/users/entities/RegisteredUser.js'
+import UserCoreInfo, { type IUserCoreInfo } from '../../Domains/users/entities/UserCoreInfo.js'
+import { type IRegisterUser } from '../../Domains/users/entities/RegisterUser.js'
 
 @injectable()
 export default class UserRepositoryPostgres implements IUserRepository {

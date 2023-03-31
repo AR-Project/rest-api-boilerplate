@@ -1,5 +1,7 @@
 import { mock } from 'jest-mock-extended'
+
 import AuthenticationRepository from '../../../../Domains/authentications/AuthenticationRepository.js'
+
 import LogoutUserUseCase from '../LogoutUserUseCase.js'
 
 describe('LogoutUserUseCase', () => {

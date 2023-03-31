@@ -8,6 +8,20 @@ import LogoutUserUseCase, { type IDeleteTokenUseCasePayload } from '../../../App
 import LoginUserUseCase from '../../../Applications/use_case/authentications/LoginUserUseCase.js'
 import RefreshAuthenticationUseCase, { type IRefreshTokenUseCasePayload } from '../../../Applications/use_case/authentications/RefreshAuthenticationUseCase.js'
 
+const postResponseBody = (tokens: INewAuth) => ({
+  status: 'success',
+  data: {
+    ...tokens
+  }
+})
+
+const putResponseBody = (token: string) => ({
+  status: 'success',
+  data: {
+    accessToken: token
+  }
+})
+
 export default function registerAuthenticationRoutes(container: DependencyContainer): Router {
   const router = express.Router()
   router
@@ -18,12 +32,7 @@ export default function registerAuthenticationRoutes(container: DependencyContai
       loginUserUseCase.execute(payload)
         .then((tokens: INewAuth) => {
           res.statusCode = 201
-          res.json({
-            status: 'success',
-            data: {
-              ...tokens
-            }
-          })
+          res.json(postResponseBody(tokens))
         })
         .catch((error: any) => next(error))
     })
@@ -33,12 +42,7 @@ export default function registerAuthenticationRoutes(container: DependencyContai
         .resolve(RefreshAuthenticationUseCase)
       refreshAuthenticationUseCase.execute(payload)
         .then((token: string) => {
-          res.json({
-            status: 'success',
-            data: {
-              accessToken: token
-            }
-          })
+          res.json(putResponseBody(token))
         })
         .catch((error: any) => next(error))
     })
@@ -47,9 +51,7 @@ export default function registerAuthenticationRoutes(container: DependencyContai
       const logoutUserUseCase = container.resolve(LogoutUserUseCase)
       logoutUserUseCase.execute(payload)
         .then(() => {
-          res.json({
-            status: 'success',
-          })
+          res.json({ status: 'success' })
         })
         .catch((error: any) => next(error))
     })

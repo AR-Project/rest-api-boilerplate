@@ -1,7 +1,6 @@
 import request from 'supertest'
 import server from '../createServer.js'
 import container from '../../container.js'
-
 import pool from '../../database/postgres/pool.js'
 
 import UserTableTestHelper from '../../../_testsTableHelper/UsersTableTestHelper.js'
@@ -9,8 +8,6 @@ import AuthenticationsTableTestHelper from '../../../_testsTableHelper/Authentic
 
 // Types
 import { type IAddUserPayload } from '../../../Applications/use_case/users/AddUserUseCase.js'
-
-
 
 describe('GET /protected/nonsecure ', () => {
   it('should success and return 200 when accessed whithout token', async () => {

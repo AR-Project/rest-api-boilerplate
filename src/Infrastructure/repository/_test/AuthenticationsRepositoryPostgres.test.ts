@@ -68,6 +68,4 @@ describe('AuthenticationRepository postgres', () => {
       expect(tokens).toHaveLength(0);
     });
   });
-
 })
-

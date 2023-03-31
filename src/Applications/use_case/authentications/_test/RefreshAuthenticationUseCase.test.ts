@@ -2,6 +2,7 @@ import { mock } from 'jest-mock-extended'
 
 import AuthenticationRepository from '../../../../Domains/authentications/AuthenticationRepository.js'
 import IAuthenticationTokenManager from '../../../security/AuthenticationTokenManager.js'
+
 import RefreshAuthenticationUseCase from '../RefreshAuthenticationUseCase'
 
 describe('RefreshAuthenticationUseCase', () => {

@@ -3,10 +3,7 @@ import { Request as JWTRequest } from "express-jwt";
 import { DependencyContainer } from 'tsyringe';
 
 export default function registerProtectedRoutes(container: DependencyContainer): Router {
-
-
   const router = express.Router()
-
   router.get(
     '/nonsecure',
     (req: Request, res: Response, next: NextFunction) => {

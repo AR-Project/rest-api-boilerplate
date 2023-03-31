@@ -1,11 +1,9 @@
 import request from 'supertest'
 import server from '../createServer.js'
-
+import container from '../../container.js'
 import pool from '../../database/postgres/pool.js'
 
 import UserTableTestHelper from '../../../_testsTableHelper/UsersTableTestHelper.js'
-
-import container from '../../container.js'
 
 describe('POST /users routes', () => {
   const env = process.env
@@ -54,7 +52,6 @@ describe('POST /users routes', () => {
     expect(response.body.status).toBe('fail')
     expect(response.body.message).toBeDefined()
     expect(response.body.message).toEqual('tidak dapat membuat user baru karena properti yang dibutuhkan tidak ada');
-
   })
 
   it('should response 400 when request payload not meet data type specification', async () => {
