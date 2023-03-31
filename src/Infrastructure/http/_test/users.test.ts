@@ -5,6 +5,8 @@ import pool from '../../database/postgres/pool.js'
 
 import UserTableTestHelper from '../../../_testsTableHelper/UsersTableTestHelper.js'
 
+import container from '../../container.js'
+
 describe('POST /users routes', () => {
   const env = process.env
 
@@ -26,9 +28,9 @@ describe('POST /users routes', () => {
    * To be FAILED
    */
   it('should fail and return 400 when no payload', async () => {
-    const response = await request(server)
+    const response = await request(server(container))
       .post('/users')
-   
+
     expect(response.statusCode).toBe(400)
     expect(response.body.status).toBeDefined()
     expect(response.body.status).toBe('fail')
@@ -42,11 +44,11 @@ describe('POST /users routes', () => {
     }
 
     // Action
-    const response = await request(server)
+    const response = await request(server(container))
       .post('/users')
       .send(requestPayload)
       .set('Accept', 'application/json')
-   
+
     expect(response.statusCode).toBe(400)
     expect(response.body.status).toBeDefined()
     expect(response.body.status).toBe('fail')
@@ -63,11 +65,11 @@ describe('POST /users routes', () => {
     }
 
     // Action
-    const response = await request(server)
+    const response = await request(server(container))
       .post('/users')
       .send(requestPayload)
       .set('Accept', 'application/json')
-   
+
     expect(response.statusCode).toBe(400)
     expect(response.body.status).toBeDefined()
     expect(response.body.status).toBe('fail')
@@ -83,11 +85,11 @@ describe('POST /users routes', () => {
     }
 
     // Action
-    const response = await request(server)
+    const response = await request(server(container))
       .post('/users')
       .send(requestPayload)
       .set('Accept', 'application/json')
-   
+
     expect(response.statusCode).toBe(400)
     expect(response.body.status).toBeDefined()
     expect(response.body.status).toBe('fail')
@@ -103,11 +105,11 @@ describe('POST /users routes', () => {
     }
 
     // Action
-    const response = await request(server)
+    const response = await request(server(container))
       .post('/users')
       .send(requestPayload)
       .set('Accept', 'application/json')
-   
+
     expect(response.statusCode).toBe(400)
     expect(response.body.status).toBeDefined()
     expect(response.body.status).toBe('fail')
@@ -124,11 +126,11 @@ describe('POST /users routes', () => {
     }
 
     // Action
-    const response = await request(server)
+    const response = await request(server(container))
       .post('/users')
       .send(requestPayload)
       .set('Accept', 'application/json')
-   
+
     expect(response.statusCode).toBe(400)
     expect(response.body.status).toBeDefined()
     expect(response.body.status).toBe('fail')
@@ -147,12 +149,12 @@ describe('POST /users routes', () => {
     }
 
     // Action
-    const response = await request(server)
+    const response = await request(server(container))
       .post('/users')
       .send(requestPayload)
       .set('Accept', 'application/json')
 
-      
+
     // Assert
     expect(response.statusCode).toBe(201)
     expect(response.body.status).toBe('succes')
@@ -174,12 +176,12 @@ describe('POST /users routes', () => {
     }
 
     // Action
-    const response = await request(server)
+    const response = await request(server(container))
       .post('/users')
       .send(requestPayload)
       .set('Accept', 'application/json')
 
-      
+
     // Assert
     expect(response.statusCode).toBe(201)
     expect(response.body.status).toBe('succes')

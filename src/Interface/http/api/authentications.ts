@@ -1,5 +1,5 @@
-import container from '../../../Infrastructure/container.js'
-import express, { type Request, type Response, type NextFunction } from 'express'
+import express, { type Request, type Response, type NextFunction, Router } from 'express'
+import { DependencyContainer } from 'tsyringe'
 
 import type IUserlogin from '../../../Domains/users/entities/UserLogin.js'
 import type INewAuth from '../../../Domains/authentications/entities/NewAuth.js'
@@ -8,54 +8,51 @@ import LogoutUserUseCase, { type IDeleteTokenUseCasePayload } from '../../../App
 import LoginUserUseCase from '../../../Applications/use_case/authentications/LoginUserUseCase.js'
 import RefreshAuthenticationUseCase, { type IRefreshTokenUseCasePayload } from '../../../Applications/use_case/authentications/RefreshAuthenticationUseCase.js'
 
-
-const router = express.Router()
-
-router.post('/', (req: Request, res: Response, next: NextFunction) => {
-  const payload: IUserlogin = req.body
-  const loginUserUseCase = container.resolve(LoginUserUseCase)
-  loginUserUseCase.execute(payload)
-    .then((tokens: INewAuth) => {
-      res.statusCode = 201
-      res.json({
-        status: 'success',
-        data: {
-          ...tokens
-        }
-      })
+export default function registerAuthenticationRoutes(container: DependencyContainer): Router {
+  const router = express.Router()
+  router
+    .route('/')
+    .post((req: Request, res: Response, next: NextFunction) => {
+      const payload: IUserlogin = req.body
+      const loginUserUseCase = container.resolve(LoginUserUseCase)
+      loginUserUseCase.execute(payload)
+        .then((tokens: INewAuth) => {
+          res.statusCode = 201
+          res.json({
+            status: 'success',
+            data: {
+              ...tokens
+            }
+          })
+        })
+        .catch((error: any) => next(error))
     })
-    .catch((error: any) => next(error))
-})
-
-router.put('/', (req: Request, res: Response, next: NextFunction) => {
-  const payload: IRefreshTokenUseCasePayload = req.body
-  const refreshAuthenticationUseCase = container
-    .resolve(RefreshAuthenticationUseCase)
-
-  refreshAuthenticationUseCase.execute(payload)
-    .then((token: string) => {
-      res.json({
-        status: 'success',
-        data: {
-          accessToken: token
-        }
-      })
+    .put((req: Request, res: Response, next: NextFunction) => {
+      const payload: IRefreshTokenUseCasePayload = req.body
+      const refreshAuthenticationUseCase = container
+        .resolve(RefreshAuthenticationUseCase)
+      refreshAuthenticationUseCase.execute(payload)
+        .then((token: string) => {
+          res.json({
+            status: 'success',
+            data: {
+              accessToken: token
+            }
+          })
+        })
+        .catch((error: any) => next(error))
     })
-    .catch((error: any) => next(error))
-})
-
-
-router.delete('/', (req: Request, res: Response, next: NextFunction) => {
-  const payload: IDeleteTokenUseCasePayload = req.body
-  const logoutUserUseCase = container.resolve(LogoutUserUseCase)
-
-  logoutUserUseCase.execute(payload)
-    .then(() => {
-      res.json({
-        status: 'success',
-      })
+    .delete((req: Request, res: Response, next: NextFunction) => {
+      const payload: IDeleteTokenUseCasePayload = req.body
+      const logoutUserUseCase = container.resolve(LogoutUserUseCase)
+      logoutUserUseCase.execute(payload)
+        .then(() => {
+          res.json({
+            status: 'success',
+          })
+        })
+        .catch((error: any) => next(error))
     })
-    .catch((error: any) => next(error))
-})
 
-export default router
+  return router
+}

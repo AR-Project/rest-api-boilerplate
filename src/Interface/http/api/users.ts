@@ -6,9 +6,9 @@ import { DependencyContainer } from 'tsyringe'
 export default function registerUsersRoute(container: DependencyContainer): Router {
   const router = express.Router()
 
-  router
-    .route('/')
-    .post((req: Request, res: Response, next: NextFunction) => {
+  router.post(
+    '/',
+    (req: Request, res: Response, next: NextFunction) => {
       const payload = req.body
       const addUserUseCase = container.resolve(AddUserUseCase)
       addUserUseCase.execute(payload)

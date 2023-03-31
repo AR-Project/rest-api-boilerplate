@@ -1,9 +1,10 @@
 import request from 'supertest'
 import server from '../createServer.js'
+import container from '../../container.js'
 
 describe('GET / endpoint', () => {
   it('should return 200 and message ', async () => {
-    const response = await request(server)
+    const response = await request(server(container))
       .get('/')
 
     expect(response.statusCode).toBe(200)
