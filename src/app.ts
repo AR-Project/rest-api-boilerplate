@@ -1,12 +1,13 @@
-import express, {Express, Request, Response} from 'express'
-import server from './Infrastructure/http/createServer.js'
 import * as dotenv from 'dotenv'
 dotenv.config()
+import 'reflect-metadata'
+import container from './Infrastructure/container.js'
+import createServer from './Infrastructure/http/createServer.js'
 
 const PORT = process.env.PORT
 
-const app = server
+const app = createServer(container)
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`)
 })

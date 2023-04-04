@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable class-methods-use-this */
-
 export interface ITokenPayload {
   id: string
   username: string

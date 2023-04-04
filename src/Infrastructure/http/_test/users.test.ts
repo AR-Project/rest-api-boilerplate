@@ -1,6 +1,6 @@
 import request from 'supertest'
 import server from '../createServer.js'
-
+import container from '../../container.js'
 import pool from '../../database/postgres/pool.js'
 
 import UserTableTestHelper from '../../../_testsTableHelper/UsersTableTestHelper.js'
@@ -26,9 +26,9 @@ describe('POST /users routes', () => {
    * To be FAILED
    */
   it('should fail and return 400 when no payload', async () => {
-    const response = await request(server)
+    const response = await request(server(container))
       .post('/users')
-   
+
     expect(response.statusCode).toBe(400)
     expect(response.body.status).toBeDefined()
     expect(response.body.status).toBe('fail')
@@ -42,17 +42,16 @@ describe('POST /users routes', () => {
     }
 
     // Action
-    const response = await request(server)
+    const response = await request(server(container))
       .post('/users')
       .send(requestPayload)
       .set('Accept', 'application/json')
-   
+
     expect(response.statusCode).toBe(400)
     expect(response.body.status).toBeDefined()
     expect(response.body.status).toBe('fail')
     expect(response.body.message).toBeDefined()
     expect(response.body.message).toEqual('tidak dapat membuat user baru karena properti yang dibutuhkan tidak ada');
-
   })
 
   it('should response 400 when request payload not meet data type specification', async () => {
@@ -63,11 +62,11 @@ describe('POST /users routes', () => {
     }
 
     // Action
-    const response = await request(server)
+    const response = await request(server(container))
       .post('/users')
       .send(requestPayload)
       .set('Accept', 'application/json')
-   
+
     expect(response.statusCode).toBe(400)
     expect(response.body.status).toBeDefined()
     expect(response.body.status).toBe('fail')
@@ -83,11 +82,11 @@ describe('POST /users routes', () => {
     }
 
     // Action
-    const response = await request(server)
+    const response = await request(server(container))
       .post('/users')
       .send(requestPayload)
       .set('Accept', 'application/json')
-   
+
     expect(response.statusCode).toBe(400)
     expect(response.body.status).toBeDefined()
     expect(response.body.status).toBe('fail')
@@ -103,11 +102,11 @@ describe('POST /users routes', () => {
     }
 
     // Action
-    const response = await request(server)
+    const response = await request(server(container))
       .post('/users')
       .send(requestPayload)
       .set('Accept', 'application/json')
-   
+
     expect(response.statusCode).toBe(400)
     expect(response.body.status).toBeDefined()
     expect(response.body.status).toBe('fail')
@@ -124,11 +123,11 @@ describe('POST /users routes', () => {
     }
 
     // Action
-    const response = await request(server)
+    const response = await request(server(container))
       .post('/users')
       .send(requestPayload)
       .set('Accept', 'application/json')
-   
+
     expect(response.statusCode).toBe(400)
     expect(response.body.status).toBeDefined()
     expect(response.body.status).toBe('fail')
@@ -147,12 +146,12 @@ describe('POST /users routes', () => {
     }
 
     // Action
-    const response = await request(server)
+    const response = await request(server(container))
       .post('/users')
       .send(requestPayload)
       .set('Accept', 'application/json')
 
-      
+
     // Assert
     expect(response.statusCode).toBe(201)
     expect(response.body.status).toBe('succes')
@@ -174,12 +173,12 @@ describe('POST /users routes', () => {
     }
 
     // Action
-    const response = await request(server)
+    const response = await request(server(container))
       .post('/users')
       .send(requestPayload)
       .set('Accept', 'application/json')
 
-      
+
     // Assert
     expect(response.statusCode).toBe(201)
     expect(response.body.status).toBe('succes')

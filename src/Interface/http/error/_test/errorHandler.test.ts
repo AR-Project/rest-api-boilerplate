@@ -1,9 +1,6 @@
 import { NextFunction, Request, Response, ErrorRequestHandler } from "express";
 import errorHandlerMiddleware from '../errorHandler.js'
 
-import ClientError from "../../../../Commons/exceptions/ClientError";
-
-
 describe("Error middleware", () => {
   let mockRequest: Partial<Request>;
   let mockResponse: Partial<Response>;
@@ -24,13 +21,12 @@ describe("Error middleware", () => {
     mockErrorRequestHandler = new Error('TEST ERROR')
 
     // Action
-    errorHandlerMiddleware(mockErrorRequestHandler as ErrorRequestHandler,mockRequest as Request, mockResponse as Response, nextFunction)
+    errorHandlerMiddleware(mockErrorRequestHandler as ErrorRequestHandler, mockRequest as Request, mockResponse as Response, nextFunction)
 
-    // expect(nextFunction).toBeCalledWith(mockErrorRequestHandler)
+    // Assert
     expect(nextFunction).toBeCalledWith(mockErrorRequestHandler)
     expect(mockResponse.json).not.toBeCalled()
     expect(mockResponse.status).not.toBeCalled()
-
   });
 
   it('should translate error when error is instance of Client Error', async () => {
@@ -38,10 +34,10 @@ describe("Error middleware", () => {
     mockErrorRequestHandler = new Error('TESTING.CUSTOM_ERROR')
 
     // Action
-    errorHandlerMiddleware(mockErrorRequestHandler as ErrorRequestHandler,mockRequest as Request, mockResponse as Response, nextFunction)
+    errorHandlerMiddleware(mockErrorRequestHandler as ErrorRequestHandler, mockRequest as Request, mockResponse as Response, nextFunction)
 
     // Assert
-    expect(mockResponse.json).toBeCalledWith({status: 'fail', message: 'error for testing purpose'})
+    expect(mockResponse.json).toBeCalledWith({ status: 'fail', message: 'error for testing purpose' })
     expect(mockResponse.status).toBeCalledWith(400)
     expect(nextFunction).not.toBeCalled()
   })

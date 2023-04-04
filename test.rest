@@ -1,8 +1,0 @@
-GET http://localhost:5000/
-
-###
-GET http://localhost:5000/health
-
-###
-GET http://localhost:5000/generate
-

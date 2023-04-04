@@ -1,6 +1,6 @@
 import request from 'supertest'
 import server from '../createServer.js'
-
+import container from '../../container.js'
 import pool from '../../database/postgres/pool.js'
 
 import UserTableTestHelper from '../../../_testsTableHelper/UsersTableTestHelper.js'
@@ -9,19 +9,17 @@ import AuthenticationsTableTestHelper from '../../../_testsTableHelper/Authentic
 // Types
 import { type IAddUserPayload } from '../../../Applications/use_case/users/AddUserUseCase.js'
 
-
-
 describe('GET /protected/nonsecure ', () => {
   it('should success and return 200 when accessed whithout token', async () => {
-    const response = await request(server)
+    const response = await request(server(container))
       .get('/protected/nonsecure')
 
-      expect(response.statusCode).toBe(200)
-      expect(response.body.status).toBeDefined()
-      expect(response.body.message).toBeDefined()
-      expect(response.body.status).toBe('success')
-      expect(response.body.message).toBe('unprotected route')
-    }) 
+    expect(response.statusCode).toBe(200)
+    expect(response.body.status).toBeDefined()
+    expect(response.body.message).toBeDefined()
+    expect(response.body.status).toBe('success')
+    expect(response.body.message).toBe('unprotected route')
+  })
 })
 
 describe('GET /protected/secure endpoint', () => {
@@ -29,8 +27,8 @@ describe('GET /protected/secure endpoint', () => {
   let refreshToken: string
 
   beforeAll(async () => {
-     // Arrange 
-     const addUserPayload: IAddUserPayload = {
+    // Arrange 
+    const addUserPayload: IAddUserPayload = {
       username: 'arproject',
       password: 'secret',
       fullname: 'AR Project'
@@ -41,12 +39,12 @@ describe('GET /protected/secure endpoint', () => {
     }
 
     // register user
-    await request(server)
-      .post('/users') 
+    await request(server(container))
+      .post('/users')
       .send(addUserPayload)
       .set('Accept', 'application/json')
 
-    const loginResponse = await request(server)
+    const loginResponse = await request(server(container))
       .post('/authentications')
       .send(loginPayload)
       .set('Accept', 'application/json')
@@ -65,7 +63,7 @@ describe('GET /protected/secure endpoint', () => {
   });
 
   it('should fail when accessed without token', async () => {
-    const response = await request(server)
+    const response = await request(server(container))
       .get('/protected/secure')
 
     expect(response.statusCode).toBe(401)
@@ -75,7 +73,7 @@ describe('GET /protected/secure endpoint', () => {
     expect(response.body.message).toBe('unauthorized')
   })
   it('should return 200 when being accessed with a valid token', async () => {
-    const response = await request(server)
+    const response = await request(server(container))
       .get('/protected/secure')
       .set('Authorization', `bearer ${accessToken}`)
 
@@ -83,10 +81,10 @@ describe('GET /protected/secure endpoint', () => {
     expect(response.body.status).toBeDefined()
     expect(response.body.message).toBeDefined()
     expect(response.body.status).toBe('success')
-    expect(response.body.message).toBe('protected route')    
+    expect(response.body.message).toBe('protected route')
   })
   it('should return 401 when being accessed with a invalid token', async () => {
-    const response = await request(server)
+    const response = await request(server(container))
       .get('/protected/secure')
       .set('Authorization', `bearer ${refreshToken}`)
 
@@ -94,6 +92,6 @@ describe('GET /protected/secure endpoint', () => {
     expect(response.body.status).toBeDefined()
     expect(response.body.message).toBeDefined()
     expect(response.body.status).toBe('fail')
-    expect(response.body.message).toBe('unauthorized')   
+    expect(response.body.message).toBe('unauthorized')
   })
 })

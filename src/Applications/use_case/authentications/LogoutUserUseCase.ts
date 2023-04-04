@@ -1,22 +1,21 @@
-import type AuthenticationRepository from '../../../Domains/authentications/AuthenticationRepository.js'
+import { injectable, inject } from 'tsyringe'
+
+import type IAuthenticationRepository from '../../../Domains/authentications/AuthenticationRepository.js'
 
 export interface IDeleteTokenUseCasePayload {
   refreshToken: string
 }
-
-interface IDeleteTokenUseCase {
-  authenticationRepository: AuthenticationRepository
-}
-
+@injectable()
 export default class LogoutUserUseCase {
-  _authenticationRepository: AuthenticationRepository
-  constructor({
-    authenticationRepository,
-  }: IDeleteTokenUseCase) {
+  _authenticationRepository: IAuthenticationRepository
+  constructor(
+    @inject('IAuthenticationRepository')
+    authenticationRepository: IAuthenticationRepository,
+  ) {
     this._authenticationRepository = authenticationRepository;
   }
 
-  async execute(useCasePayload:IDeleteTokenUseCasePayload):Promise<void> {
+  async execute(useCasePayload: IDeleteTokenUseCasePayload): Promise<void> {
     this._validatePayload(useCasePayload);
     const { refreshToken } = useCasePayload;
     await this._authenticationRepository.checkAvailabilityToken(refreshToken);
@@ -34,5 +33,3 @@ export default class LogoutUserUseCase {
     }
   }
 }
-
-module.exports = LogoutUserUseCase;

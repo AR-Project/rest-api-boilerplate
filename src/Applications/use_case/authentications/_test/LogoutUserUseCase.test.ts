@@ -1,5 +1,7 @@
 import { mock } from 'jest-mock-extended'
+
 import AuthenticationRepository from '../../../../Domains/authentications/AuthenticationRepository.js'
+
 import LogoutUserUseCase from '../LogoutUserUseCase.js'
 
 describe('LogoutUserUseCase', () => {
@@ -42,9 +44,9 @@ describe('LogoutUserUseCase', () => {
     mockAuthenticationRepository.deleteToken
       .mockReturnValue(Promise.resolve());
 
-    const logoutUserUseCase = new LogoutUserUseCase({
-      authenticationRepository: mockAuthenticationRepository,
-    });
+    const logoutUserUseCase = new LogoutUserUseCase(
+      mockAuthenticationRepository,
+    );
 
     // Act
     await logoutUserUseCase.execute(useCasePayload);

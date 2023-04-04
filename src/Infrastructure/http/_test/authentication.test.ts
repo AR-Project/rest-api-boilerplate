@@ -1,6 +1,6 @@
 import server from '../createServer'
 import request from 'supertest'
-
+import container from '../../container.js'
 import pool from '../../database/postgres/pool.js'
 
 import UserTableTestHelper from '../../../_testsTableHelper/UsersTableTestHelper.js'
@@ -18,14 +18,15 @@ describe('authentication endpoint', () => {
     await UserTableTestHelper.cleanTable();
     await AuthenticationsTableTestHelper.cleanTable();
   });
+
   describe('when POST /authentications', () => {
     /**
      * FAIL TEST SECTION
      */
     it('should fail and return 400 when no payload', async () => {
-      const response = await request(server)
+      const response = await request(server(container))
         .post('/authentications')
-     
+
       expect(response.statusCode).toBe(400)
       expect(response.body.status).toBeDefined()
       expect(response.body.status).toBe('fail')
@@ -39,19 +40,19 @@ describe('authentication endpoint', () => {
       const requestPayload = {
         username: 'dicoding',
       };
-      const response = await request(server)
+      const response = await request(server(container))
         .post('/authentications')
         .send(requestPayload)
         .set('Accept', 'application/json')
 
- 
+
       // Assert
       expect(response.statusCode).toEqual(400);
       expect(response.body.status).toBeDefined()
       expect(response.body.status).toBe('fail')
       expect(response.body.message).toBeDefined()
       expect(response.body.message).toBe('harus mengirimkan username dan password')
-      
+
       // expect(responseJson.message).toEqual('harus mengirimkan username dan password');
     })
 
@@ -62,7 +63,7 @@ describe('authentication endpoint', () => {
         password: 'secret',
       };
       // Action
-      const response = await request(server)
+      const response = await request(server(container))
         .post('/authentications')
         .send(requestPayload)
         .set('Accept', 'application/json')
@@ -90,12 +91,12 @@ describe('authentication endpoint', () => {
         password: 'secret'
       }
 
-      const registerResponse = await request(server)
+      const registerResponse = await request(server(container))
         .post('/users')
         .send(addUserPayload)
         .set('Accept', 'application/json')
 
-      const loginResponse = await request(server)
+      const loginResponse = await request(server(container))
         .post('/authentications')
         .send(loginPayload)
         .set('Accept', 'application/json')
@@ -108,7 +109,7 @@ describe('authentication endpoint', () => {
       expect(loginResponse.body.data.accessToken).toBeDefined()
       expect(loginResponse.body.data.refreshToken).toBeDefined()
       expect(totalRow).toBe(1)
-      })
+    })
   })
 
   describe('PUT /authentications', () => {
@@ -116,7 +117,7 @@ describe('authentication endpoint', () => {
     * FAIL TEST SECTION
     */
     it('should return fail, 400 when contain no payload', async () => {
-      const response = await request(server)
+      const response = await request(server(container))
         .put('/authentications')
 
       expect(response.statusCode).toBe(400)
@@ -131,12 +132,12 @@ describe('authentication endpoint', () => {
       const requestPayload = {
         wrongProperty: 'wrong_data',
       };
-      const response = await request(server)
+      const response = await request(server(container))
         .put('/authentications')
         .send(requestPayload)
         .set('Accept', 'application/json')
 
- 
+
       // Assert
       expect(response.statusCode).toEqual(400);
       expect(response.body.status).toBeDefined()
@@ -150,12 +151,12 @@ describe('authentication endpoint', () => {
       const requestPayload = {
         refreshToken: ['wrong data type'],
       };
-      const response = await request(server)
+      const response = await request(server(container))
         .put('/authentications')
         .send(requestPayload)
         .set('Accept', 'application/json')
 
- 
+
       // Assert
       expect(response.statusCode).toEqual(400);
       expect(response.body.status).toBeDefined()
@@ -175,21 +176,21 @@ describe('authentication endpoint', () => {
         password: 'secret'
       }
 
-      const registerResponse = await request(server)
+      const registerResponse = await request(server(container))
         .post('/users')
         .send(addUserPayload)
         .set('Accept', 'application/json')
 
-      const loginResponse = await request(server)
+      const loginResponse = await request(server(container))
         .post('/authentications')
         .send(loginPayload)
         .set('Accept', 'application/json')
-      
+
       const { accessToken } = loginResponse.body.data
 
-      const refreshTokenResponse = await request(server)
+      const refreshTokenResponse = await request(server(container))
         .put('/authentications')
-        .send({refreshToken: accessToken})
+        .send({ refreshToken: accessToken })
         .set('Accept', 'application/json')
 
       expect(registerResponse.statusCode).toEqual(201)
@@ -213,21 +214,21 @@ describe('authentication endpoint', () => {
         password: 'secret'
       }
 
-      const registerResponse = await request(server)
+      const registerResponse = await request(server(container))
         .post('/users')
         .send(addUserPayload)
         .set('Accept', 'application/json')
 
-      const loginResponse = await request(server)
+      const loginResponse = await request(server(container))
         .post('/authentications')
         .send(loginPayload)
         .set('Accept', 'application/json')
-      
+
       const { refreshToken } = loginResponse.body.data
 
-      const refreshTokenResponse = await request(server)
+      const refreshTokenResponse = await request(server(container))
         .put('/authentications')
-        .send({refreshToken})
+        .send({ refreshToken })
         .set('Accept', 'application/json')
 
       expect(registerResponse.statusCode).toEqual(201)
@@ -239,14 +240,13 @@ describe('authentication endpoint', () => {
 
   })
 
-
   describe('when DELETE /authentications', () => {
     /**
     * FAIL TEST SECTION
     */
 
     it('should return fail, 400 when contain no payload', async () => {
-      const response = await request(server)
+      const response = await request(server(container))
         .delete('/authentications')
 
       expect(response.statusCode).toBe(400)
@@ -259,9 +259,9 @@ describe('authentication endpoint', () => {
     it('should response 400 if refresh token not registered in database', async () => {
       // Arrange
       // Action
-      const response = await request(server)
+      const response = await request(server(container))
         .delete('/authentications')
-        .send({ refreshToken: 'invalid-token'})
+        .send({ refreshToken: 'invalid-token' })
         .set('Accept', 'application/json')
 
       // Assert
@@ -270,11 +270,11 @@ describe('authentication endpoint', () => {
       expect(response.body.message).toEqual('refresh token tidak ditemukan di database');
     });
 
-    
+
     it('should response 400 if payload not contain refresh token', async () => {
       // Arrange
       // Action
-      const response = await request(server)
+      const response = await request(server(container))
         .delete('/authentications')
         .send({})
         .set('Accept', 'application/json')
@@ -287,9 +287,9 @@ describe('authentication endpoint', () => {
     it('should response 400 if refresh token not string', async () => {
       // Arrange
       // Action
-      const response = await request(server)
+      const response = await request(server(container))
         .delete('/authentications')
-        .send({refreshToken: 123})
+        .send({ refreshToken: 123 })
         .set('Accept', 'application/json')
 
       expect(response.statusCode).toEqual(400);
@@ -304,9 +304,9 @@ describe('authentication endpoint', () => {
       await AuthenticationsTableTestHelper.addToken(refreshToken);
 
       // Action
-      const response = await request(server)
+      const response = await request(server(container))
         .delete('/authentications')
-        .send({refreshToken})
+        .send({ refreshToken })
         .set('Accept', 'application/json')
 
       // Assert

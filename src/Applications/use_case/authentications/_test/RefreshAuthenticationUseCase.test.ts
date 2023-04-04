@@ -2,6 +2,7 @@ import { mock } from 'jest-mock-extended'
 
 import AuthenticationRepository from '../../../../Domains/authentications/AuthenticationRepository.js'
 import IAuthenticationTokenManager from '../../../security/AuthenticationTokenManager.js'
+
 import RefreshAuthenticationUseCase from '../RefreshAuthenticationUseCase'
 
 describe('RefreshAuthenticationUseCase', () => {
@@ -56,10 +57,10 @@ describe('RefreshAuthenticationUseCase', () => {
       .mockReturnValue(Promise.resolve('some_new_access_token'));
 
     // Create the use case instace
-    const refreshAuthenticationUseCase = new RefreshAuthenticationUseCase({
-      authenticationRepository: mockAuthenticationRepository,
-      authenticationTokenManager: mockAuthenticationTokenManager,
-    });
+    const refreshAuthenticationUseCase = new RefreshAuthenticationUseCase(
+      mockAuthenticationRepository,
+      mockAuthenticationTokenManager,
+    );
 
     // Action
     const accessToken = await refreshAuthenticationUseCase.execute(useCasePayload);

@@ -9,7 +9,7 @@ export default class UserCoreInfo {
   constructor(payload: IUserCoreInfo) {
     this._verifyPayload(payload)
     const { id, role } = payload
-    
+
     this.id = id
     this.role = role
 

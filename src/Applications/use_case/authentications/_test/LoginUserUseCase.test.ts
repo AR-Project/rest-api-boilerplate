@@ -1,6 +1,5 @@
 import { mock } from 'jest-mock-extended'
 
-
 import IUserRepository from '../../../../Domains/users/UserRepository.js'
 import AuthenticationRepository from '../../../../Domains/authentications/AuthenticationRepository.js'
 import NewAuth from '../../../../Domains/authentications/entities/NewAuth.js'
@@ -41,12 +40,12 @@ describe('GetAuthenticationUseCase', () => {
       .mockReturnValue(Promise.resolve());
 
     // create use case instance
-    const loginUserUseCase = new LoginUserUseCase({
-      userRepository: mockUserRepository,
-      authenticationRepository: mockAuthenticationRepository,
-      authenticationTokenManager: mockAuthenticationTokenManager,
-      passwordHash: mockPasswordHash,
-    });
+    const loginUserUseCase = new LoginUserUseCase(
+      mockUserRepository,
+      mockAuthenticationRepository,
+      mockAuthenticationTokenManager,
+      mockPasswordHash,
+    );
 
     // Action
     const actualAuthentication = await loginUserUseCase.execute(useCasePayload);
