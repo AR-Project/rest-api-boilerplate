@@ -17,7 +17,7 @@ import RoleCheckHelper from '../Infrastructure/security/RoleCheckHelper.js'
 import nanoId from './externalModule/nanoId.js'
 
 // Domain Layer
-import IUserRepository from "Domains/users/UserRepository.js";
+import IUserRepository from "../Domains/users/UserRepository.js";
 import IAuthenticationRepository from '../Domains/authentications/AuthenticationRepository.js'
 
 // Domain Layer - Implementation
